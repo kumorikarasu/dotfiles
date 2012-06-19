@@ -66,6 +66,7 @@ map <F3> "yyiw:grep -r <C-R>y *<CR>
 map <F5> :make<CR>
 map <F6> :!redo deploy<CR>
 
+map <C-S-j> kddpkJ
 map <Leader>] :tnext<CR>
 map <Leader>[ :tprev<CR>
 map <S-l> :cn<CR>
