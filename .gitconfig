@@ -1,7 +1,6 @@
 [user]
-	name = Bill Casarin
-	email = bill@casarin.ca
-	signingkey = 0x415AF4A3
+	name = Sean Stacey
+  email = kumori@ryougi.com
 [color]
 	diff = auto
   status = false
@@ -9,8 +8,6 @@
 	excludesfile = /Users/jb55/.gitignore_global
 [url "https://github.com/"]
   insteadOf = gh:
-[gui]
-	recentrepo = /Users/jb55/src/js/titania
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
