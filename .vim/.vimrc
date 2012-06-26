@@ -62,7 +62,6 @@ map <F8> :make tags<CR>
 map <F12> :TlistToggle<CR>
 map <F11> :NERDTreeToggle<CR>
 map <F3> "yyiw:grep -r <C-R>y *<CR>
-"map <F4> :vs<CR>:vs<CR><F11><C-W>l<C-W>84\|<C-W>l<C-W>84\|<C-W>l
 map <F5> :make<CR>
 map <F6> :!redo deploy<CR>
 
@@ -181,3 +180,7 @@ function! PlaySound()
 endfunction
 autocmd CursorMovedI * call PlaySound()
 
+"Fold Config
+hi Folded ctermbg=272727 ctermfg=171
+au BufWinEnter * silent! loadview
+map <F4> :mkview<CR>
