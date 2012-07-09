@@ -42,6 +42,7 @@ let maplocalleader = "\\"
 
 " digraphs
 
+
 " lambda λ
 imap <C-j> <C-k>l*
 
@@ -70,6 +71,8 @@ map <Leader>] :tnext<CR>
 map <Leader>[ :tprev<CR>
 map <S-l> :cn<CR>
 map <S-h> :cN<CR>
+map <C-m> :cnext<CR>
+map <C-n> :cprevious<CR>
 map <Leader>a :%s/\ at\ /\r\ at\ /g<CR>
 
 map <Leader>y :Lodgeit<CR>
@@ -187,3 +190,12 @@ au BufWinEnter * silent! loadview
 map <F4> :mkview<CR>
 autocmd FileType coffee set foldmethod=marker|set commentstring=#%s
 autocmd FileType vim set foldmethod=marker|set commentstring="%s
+
+"set makeprg=livescript\ -c\ %
+
+"set errorformat=%EFailed\ at:\ %f,
+               "\%ECan't\ find:\ %f,
+               "\%CSyntaxError:\ %m\ on\ line\ %l,
+               "\%EError:\ Parse\ error\ on\ line\ %l:\ %m,
+               "\%C,%C\ %.%#
+
