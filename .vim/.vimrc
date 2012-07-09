@@ -150,6 +150,7 @@ au BufRead,BufNewFile *.java set ts=4
 au BufRead,BufNewFile *.json set ft=json
 au BufRead,BufNewFile *.less set syn=less
 au BufRead,BufNewFile *.ll set syn=llvm
+au BufRead,BufNewFile *.ls set ft=ls
 au BufRead,BufNewFile *.ly set syn=bn
 au BufRead,BufNewFile *.material set syn=ogre3d_material
 au BufRead,BufNewFile *.md,*.mkd,*.markdown set ft=pdc
@@ -184,3 +185,5 @@ autocmd CursorMovedI * call PlaySound()
 hi Folded ctermbg=272727 ctermfg=171
 au BufWinEnter * silent! loadview
 map <F4> :mkview<CR>
+autocmd FileType coffee set foldmethod=marker|set commentstring=#%s
+autocmd FileType vim set foldmethod=marker|set commentstring="%s
