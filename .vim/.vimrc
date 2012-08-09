@@ -69,6 +69,7 @@ map <F6> :!redo deploy<CR>
 map <C-S-j> kddpkJ
 map <Leader>] :tnext<CR>
 map <Leader>[ :tprev<CR>
+vmap <Leader>c :!xclip -selection clipboard
 map <S-l> :cn<CR>
 map <S-h> :cN<CR>
 map <C-m> :cnext<CR>
@@ -189,6 +190,7 @@ hi Folded ctermbg=272727 ctermfg=171
 au BufWinEnter * silent! loadview
 map <F4> :mkview<CR>
 autocmd FileType coffee set foldmethod=marker|set commentstring=#%s
+autocmd FileType ls set foldmethod=marker|set commentstring=#%s
 autocmd FileType vim set foldmethod=marker|set commentstring="%s
 
 "set makeprg=livescript\ -c\ %
