@@ -130,10 +130,10 @@ let g:EasyMotion_leader_key = '<Leader>'
 
 let g:ctrlp_switch_buffer=0
 
-let g:ctrlp_prompt_mappings = {
-    \ 'PrtBS()': ['<c-h>'],
-    \ 'PrtCurLeft()': ['<left>'],
-    \ }
+"let g:ctrlp_prompt_mappings = {
+    "\ 'PrtBS()': ['<c-h>'],
+    "\ 'PrtCurLeft()': ['<left>'],
+    "\ }
 
 " }}}
 
@@ -186,7 +186,7 @@ endfunction
 autocmd CursorMovedI * call PlaySound()
 
 "Fold Config
-hi Folded ctermbg=272727 ctermfg=171
+hi Folded ctermbg=234 ctermfg=171
 au BufWinEnter * silent! loadview
 map <F4> :mkview<CR>
 autocmd FileType coffee set foldmethod=marker|set commentstring=#%s
