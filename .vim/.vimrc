@@ -65,8 +65,10 @@ map <F8> :make tags<CR>
 map <F12> :TlistToggle<CR>
 map <F11> :NERDTreeToggle<CR>
 map <F3> "yyiw:grep -r <C-R>y *<CR>
+"map <F3> :silent make \| redraw! \| cc<CR>
+map <F4> :call RCmd("make")<CR>
 map <F5> :make<CR>
-map <F6> :!redo deploy<CR>
+map <F6> :!make deploy<CR>
 
 map <C-S-j> kddpkJ
 map <Leader>] :tnext<CR>
@@ -90,6 +92,8 @@ map zp :tabp<CR>
 map zn :tabn<CR>
 
 cmap w!! %!sudo tee > /dev/null %
+cmap c! call RCmd("
+cmap g! call GRCmd("
 
 nnoremap x "_x
 nnoremap X "_X
@@ -205,3 +209,11 @@ autocmd FileType vim set foldmethod=marker|set commentstring="%s
                "\%EError:\ Parse\ error\ on\ line\ %l:\ %m,
                "\%C,%C\ %.%#
 
+function! RCmd(cmd)
+  :silent! exe '!echo "cd ' . getcwd() . ' && ' . a:cmd . '" > /tmp/cmds'
+  :redraw!
+endfunction
+
+function! GRCmd(cmd)
+  :call RCmd("git --no-pager " . a:cmd)
+endfunction
