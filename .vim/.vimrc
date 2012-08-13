@@ -55,6 +55,7 @@ imap <C-g> <C-k><-
 " left arrow ←
 imap <C-o> <C-k>Ob
 
+
 nnoremap <F10> :set invpaste paste?<CR>
 imap <F10> <C-O><F10>
 set pastetoggle=<F10>
@@ -69,7 +70,7 @@ map <F6> :!redo deploy<CR>
 map <C-S-j> kddpkJ
 map <Leader>] :tnext<CR>
 map <Leader>[ :tprev<CR>
-vmap <Leader>c :!xclip -selection clipboard
+vmap <Leader>c :!xclip -selection clipboard<CR>
 map <S-l> :cn<CR>
 map <S-h> :cN<CR>
 map <C-m> :cnext<CR>
@@ -84,6 +85,8 @@ vmap <Leader><Leader>j !jade -p % -o "{ prettyprint: true }"<CR>
 
 map <Leader>cr :!newclay % && ./main<CR>
 
+map zp :tabp<CR>
+map zn :tabn<CR>
 
 cmap w!! %!sudo tee > /dev/null %
 
