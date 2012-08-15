@@ -92,6 +92,9 @@ cmap w!! %!sudo tee > /dev/null %
 cmap c! call RCmd("")<Left><Left>
 cmap g! call GRCmd("")<Left><Left>
 
+cmap wg !git commit % -m ""<Left>
+cmap wag !git commit -am ""<Left>
+
 nnoremap x "_x
 nnoremap X "_X
 
