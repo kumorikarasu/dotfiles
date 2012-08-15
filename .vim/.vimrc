@@ -88,12 +88,9 @@ vmap <Leader><Leader>j !jade -p % -o "{ prettyprint: true }"<CR>
 
 map <Leader>cr :!newclay % && ./main<CR>
 
-map zp :tabp<CR>
-map zn :tabn<CR>
-
 cmap w!! %!sudo tee > /dev/null %
-cmap c! call RCmd("
-cmap g! call GRCmd("
+cmap c! call RCmd("")<Left><Left>
+cmap g! call GRCmd("")<Left><Left>
 
 nnoremap x "_x
 nnoremap X "_X
@@ -196,7 +193,6 @@ autocmd CursorMovedI * call PlaySound()
 "Fold Config
 hi Folded ctermbg=234 ctermfg=171
 au BufWinEnter * silent! loadview
-map <F4> :mkview<CR>
 autocmd FileType coffee set foldmethod=marker|set commentstring=#%s
 autocmd FileType ls set foldmethod=marker|set commentstring=#%s
 autocmd FileType vim set foldmethod=marker|set commentstring="%s
