@@ -37,6 +37,7 @@ export ROY_BIN=$HOME/dev/roy
 export JAVA_HOME=$HOME/dev/jdk1.7.0_05
 export JAVA_BIN=$HOME/dev/jdk1.7.0_05/bin
 export CLOJURESCRIPT_HOME=$HOME/dev/clojurescript
+export REDO_HOME=$HOME/dev/redo
 
 export NODE_PATH=/usr/local/lib/node_modules
 
@@ -60,6 +61,7 @@ export PATH=$PLAY_HOME:$PATH
 export PATH=$JAVA_BIN:$PATH
 export PATH=$SCALA_HOME/bin:$PATH
 export PATH=$CLOJURESCRIPT_HOME/bin:$PATH
+export PATH=$REDO_HOME:$PATH
 
 source $HOME/.profile
 
