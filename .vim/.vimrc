@@ -193,6 +193,9 @@ autocmd FileType coffee set foldmethod=marker|set commentstring=#%s
 autocmd FileType ls set foldmethod=marker|set commentstring=#%s
 autocmd FileType vim set foldmethod=marker|set commentstring="%s
 
+set exrc
+set secure
+
 "set makeprg=livescript\ -c\ %
 
 "set errorformat=%EFailed\ at:\ %f,
