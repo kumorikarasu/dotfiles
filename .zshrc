@@ -20,7 +20,6 @@ source $ZSH/oh-my-zsh.sh
 # vi
 bindkey -v
 
-
 export EDITOR=vim
 export TEXBIN=/usr/texbin
 export PLAY_HOME=$HOME/dev/play-2.0.2
@@ -39,6 +38,7 @@ export JAVA_BIN=$HOME/dev/jdk1.7.0_05/bin
 export CLOJURESCRIPT_HOME=$HOME/dev/clojurescript
 
 export NODE_PATH=/usr/local/lib/node_modules
+export NODE_MODULES=./node_modules
 
 export LUA_HOME=/opt/local/share/luarocks
 export LUA_BIN=$LUA_HOME/bin
@@ -60,6 +60,7 @@ export PATH=$PLAY_HOME:$PATH
 export PATH=$JAVA_BIN:$PATH
 export PATH=$SCALA_HOME/bin:$PATH
 export PATH=$CLOJURESCRIPT_HOME/bin:$PATH
+export PATH=$NODE_MODULES/.bin:$PATH
 
 source $HOME/.profile
 
