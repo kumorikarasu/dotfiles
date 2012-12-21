@@ -30,6 +30,7 @@ if has("gui_running")
   colorscheme wombat
 else
   set t_Co=256
+  set clipboard=unnamed
   colorscheme wombat256
 endif
 
@@ -55,6 +56,7 @@ imap <C-g> <C-k><-
 " left arrow ←
 imap <C-o> <C-k>Ob
 
+
 nnoremap <F10> :set invpaste paste?<CR>
 imap <F10> <C-O><F10>
 set pastetoggle=<F10>
@@ -63,13 +65,15 @@ map <F8> :make tags<CR>
 map <F12> :TlistToggle<CR>
 map <F11> :NERDTreeToggle<CR>
 map <F3> "yyiw:grep -r <C-R>y *<CR>
+"map <F3> :silent make \| redraw! \| cc<CR>
+map <F4> :call RCmd("make")<CR>
 map <F5> :make<CR>
-map <F6> :!redo deploy<CR>
+map <F6> :!make deploy<CR>
 
 map <C-S-j> kddpkJ
 map <Leader>] :tnext<CR>
 map <Leader>[ :tprev<CR>
-vmap <Leader>c :!xclip -selection clipboard
+vmap <Leader>c :!xclip -selection clipboard<CR>
 map <S-l> :cn<CR>
 map <S-h> :cN<CR>
 map <C-m> :cnext<CR>
@@ -84,8 +88,12 @@ vmap <Leader><Leader>j !jade -p % -o "{ prettyprint: true }"<CR>
 
 map <Leader>cr :!newclay % && ./main<CR>
 
-
 cmap w!! %!sudo tee > /dev/null %
+cmap c! call RCmd("")<Left><Left>
+cmap g! call GRCmd("")<Left><Left>
+
+cmap wg !git commit % -m ""<Left>
+cmap wag !git commit -am ""<Left>
 
 nnoremap x "_x
 nnoremap X "_X
@@ -188,7 +196,6 @@ autocmd CursorMovedI * call PlaySound()
 "Fold Config
 hi Folded ctermbg=234 ctermfg=171
 au BufWinEnter * silent! loadview
-map <F4> :mkview<CR>
 autocmd FileType coffee set foldmethod=marker|set commentstring=#%s
 autocmd FileType ls set foldmethod=marker|set commentstring=#%s
 autocmd FileType vim set foldmethod=marker|set commentstring="%s
@@ -204,3 +211,11 @@ set secure
                "\%EError:\ Parse\ error\ on\ line\ %l:\ %m,
                "\%C,%C\ %.%#
 
+function! RCmd(cmd)
+  :silent! exe '!echo "cd ' . getcwd() . ' && ' . a:cmd . '" > /tmp/cmds'
+  :redraw!
+endfunction
+
+function! GRCmd(cmd)
+  :call RCmd("git --no-pager " . a:cmd)
+endfunction
