@@ -74,8 +74,8 @@ map <C-S-j> kddpkJ
 map <Leader>] :tnext<CR>
 map <Leader>[ :tprev<CR>
 vmap <Leader>c :!xclip -selection clipboard<CR>
-map <S-l> :cn<CR>
-map <S-h> :cN<CR>
+map <S-l> :lnext<CR>
+map <S-h> :lprev<CR>
 map <C-m> :cnext<CR>
 map <C-n> :cprevious<CR>
 map <Leader>a :%s/\ at\ /\r\ at\ /g<CR>
@@ -219,3 +219,6 @@ endfunction
 function! GRCmd(cmd)
   :call RCmd("git --no-pager " . a:cmd)
 endfunction
+
+"Autoreload .vimrc
+au! BufWritePost .vimrc source %
