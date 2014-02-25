@@ -67,15 +67,16 @@ map <F11> :NERDTreeToggle<CR>
 map <F3> "yyiw:grep -r <C-R>y *<CR>
 "map <F3> :silent make \| redraw! \| cc<CR>
 map <F4> :call RCmd("make")<CR>
-map <F5> :make<CR>
 map <F6> :!make deploy<CR>
+map <F5> :make<CR>
 
-map <C-S-j> kddpkJ
+map <C-S-j> kddpkJi<CR>
 map <Leader>] :tnext<CR>
 map <Leader>[ :tprev<CR>
 vmap <Leader>c :!xclip -selection clipboard<CR>
-map <S-l> :lnext<CR>
-map <S-h> :lprev<CR>
+map <S-l> :tabn<CR>
+map <S-h> :tabp<CR>
+map <S-n> :tabnew<CR>
 map <C-m> :cnext<CR>
 map <C-n> :cprevious<CR>
 map <Leader>a :%s/\ at\ /\r\ at\ /g<CR>
