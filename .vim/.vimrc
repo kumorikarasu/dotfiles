@@ -157,6 +157,7 @@ au BufRead,BufNewFile *.galaxy set syn=galaxy
 au BufRead,BufNewFile *.glsl set syntax=glsl
 au BufRead,BufNewFile *.gnu set syn=gnuplot
 au BufRead,BufNewFile *.go set syntax=go
+au BufRead,BufNewFile *.groovy set syn=groovy
 au BufRead,BufNewFile *.hx set syn=haxe
 au BufRead,BufNewFile *.java set sw=4
 au BufRead,BufNewFile *.java set ts=4
