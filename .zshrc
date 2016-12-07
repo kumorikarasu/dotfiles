@@ -66,6 +66,9 @@ export PATH=$NODE_MODULES/.bin:$PATH
 
 source $HOME/.profile
 
+# Groovy
+source $HOME/.sdkman/bin/sdkman-init.sh
+
 # GO
 export GOROOT=$HOME/dev/go
 export GOBIN=$HOME/bin
