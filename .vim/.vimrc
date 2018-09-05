@@ -14,7 +14,7 @@ set hlsearch
 set hidden
 set nowrap
 set ruler
-set colorcolumn=81
+set colorcolumn=95
 set relativenumber
 set dir=~/.vim/tmp
 exe 'set t_kB=' . nr2char(27) . '[Z'
@@ -70,13 +70,15 @@ map <F4> :call RCmd("make")<CR>
 map <F6> :!make deploy<CR>
 map <F5> :make<CR>
 
+nnoremap * #
+nnoremap # *
 map <C-S-j> kddpkJi<CR>
 map <Leader>] :tnext<CR>
 map <Leader>[ :tprev<CR>
 vmap <Leader>c :!xclip -selection clipboard<CR>
 map <S-l> :tabn<CR>
 map <S-h> :tabp<CR>
-map <S-n> :tabnew<CR>
+map <Leader>n :tabnew<CR>
 map <C-m> :cnext<CR>
 map <C-n> :cprevious<CR>
 map <Leader>a :%s/\ at\ /\r\ at\ /g<CR>
@@ -132,12 +134,33 @@ let g:clang_use_library = 1
 set wildignore+=*/.git/*,*/.hg/*,/.svn/*,*/.redo/*
 let g:ctrlp_custom_ignore = 'node_modules$'
 
-let g:syntastic_javascript_checker = 'jshint'
+let g:syntastic_javascript_checkers = 'jshint'
+let g:syntastic_ruby_checkers = ['rubocop']
+let g:syntastic_ruby_rubocop_exec = '/opt/chefdk/bin/cookstyle'
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
 
 let g:ctrlp_extensions = ['tag']
 let g:EasyMotion_leader_key = '<Leader>'
 
 let g:ctrlp_switch_buffer=0
+
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+
+set laststatus=2
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'fugitive#head'
+      \ },
+      \ }
 
 "let g:ctrlp_prompt_mappings = {
     "\ 'PrtBS()': ['<c-h>'],
@@ -201,6 +224,7 @@ au BufWinEnter * silent! loadview
 autocmd FileType coffee set foldmethod=marker|set commentstring=#%s
 autocmd FileType ls set foldmethod=marker|set commentstring=#%s
 autocmd FileType vim set foldmethod=marker|set commentstring="%s
+autocmd FileType rb set foldmethod=marker|set commentstring=#%s
 
 set exrc
 set secure

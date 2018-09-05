@@ -3,7 +3,7 @@ export ZSH=$HOME/.oh-my-zsh
 
 # Set to the name theme to load.
 # Look in ~/.oh-my-zsh/themes/
-export ZSH_THEME="kumori"
+ export ZSH_THEME="kumori"
 
 # Set to this to use case-sensitive completion
 # export CASE_SENSITIVE="true"
@@ -13,8 +13,7 @@ export ZSH_THEME="kumori"
 
 # Uncomment following line if you want to disable colors in ls
 # export DISABLE_LS_COLORS="true"
-
-export DISABLE_AUTO_UPDATE="true"
+#
 source $ZSH/oh-my-zsh.sh
 
 # vi
@@ -44,6 +43,11 @@ export NODE_MODULES=./node_modules
 export LUA_HOME=/opt/local/share/luarocks
 export LUA_BIN=$LUA_HOME/bin
 
+# GO
+export GOROOT=$HOME/dev/go
+export GOOS=linux
+export GOARCH=amd64
+
 # Customize to your needs...
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:$HOME/bin:$PATH
 
@@ -63,17 +67,12 @@ export PATH=$SCALA_HOME/bin:$PATH
 export PATH=$CLOJURESCRIPT_HOME/bin:$PATH
 export PATH=$REDO_HOME:$PATH
 export PATH=$NODE_MODULES/.bin:$PATH
+export PATH=$GOROOT/bin:$PATH
 
 source $HOME/.profile
 
 # Groovy
 source $HOME/.sdkman/bin/sdkman-init.sh
-
-# GO
-export GOROOT=$HOME/dev/go
-export GOBIN=$HOME/bin
-export GOOS=linux
-export GOARCH=amd64
 
 # other
 export EDITOR=vim
@@ -94,5 +93,7 @@ alias mvne="mvn -Declipse.workspace=$ECLIPSE_WORKSPACE eclipse:add-maven-repo"
 alias crontab="VIM_CRONTAB=true crontab"
 alias st="git sourcetree"
 alias clip="xclip -selection clipboard"
+alias tf=terraform
 
 eval `dircolors ~/.dircolors`
+eval "$(chef shell-init zsh)"
