@@ -1,0 +1,1 @@
+/home/sean/dotfiles/.i3

@@ -14,6 +14,7 @@ FILES=`ls -a | grep "^\." \
       -e "1,2d" \
       -e "/\.git$/d" \
       -e "/\.gitmodules$/d" \
+      -e "/\.config$/d" \
 `
 
 for FILE in $FILES
@@ -24,6 +25,10 @@ do
   fi
   ln -sf `pwd`/$FILE $HOME/$FILE
 done
+
+# Manually symlink config folders as there is a lot of files we do not want to track
+mkdir $HOME/.config
+ln -sf `pwd`/.config/polybar $HOME/.config/polybar
 
 # install vim config
 echo "Installing vim config..."
