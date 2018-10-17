@@ -345,8 +345,33 @@ ramp-coreload-7-foreground = #ff5555
 
 [module/memory2]
 type = internal/memory
-format = <label> <bar-used>
+format = <label>  <ramp-used>
 label = RAM
+
+ramp-used-0 = ▁
+ramp-used-0-font = 6
+ramp-used-0-foreground = #aaff77
+ramp-used-1 = ▂
+ramp-used-1-font = 6
+ramp-used-1-foreground = #aaff77
+ramp-used-2 = ▃
+ramp-used-2-font = 6
+ramp-used-2-foreground = #aaff77
+ramp-used-3 = ▄
+ramp-used-3-font = 6
+ramp-used-3-foreground = #aaff77
+ramp-used-4 = ▅
+ramp-used-4-font = 6
+ramp-used-4-foreground = #fba922
+ramp-used-5 = ▆
+ramp-used-5-font = 6
+ramp-used-5-foreground = #fba922
+ramp-used-6 = ▇
+ramp-used-6-font = 6
+ramp-used-6-foreground = #ff5555
+ramp-used-7 = █
+ramp-used-7-font = 6
+ramp-used-7-foreground = #ff5555
 
 bar-used-width = 15
 bar-used-foreground-0 = #aaff77
@@ -414,7 +439,7 @@ time-alt = %H:%M:%S
 
 format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #0a6cf5
+;format-underline = #0a6cf5
 
 label = %date% %time%
 
