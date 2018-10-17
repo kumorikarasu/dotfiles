@@ -1,9 +1,118 @@
+# Set to the name theme to load.
+#
+# Look in ~/.oh-my-zsh/themes/
+# export ZSH_THEME="kumori"
+#export TERM="xterm-256color"
+#export ZSH_THEME="powerlevel9k/powerlevel9k"
+#export DEFAULT_USER="kumori"
+
 # Path to your oh-my-zsh configuration.
 export ZSH=$HOME/.oh-my-zsh
 
-# Set to the name theme to load.
-# Look in ~/.oh-my-zsh/themes/
- export ZSH_THEME="kumori"
+export DEFAULT_USER="kumori"
+export TERM="xterm-256color"
+export ZSH=/home/sean/.oh-my-zsh
+export LANG="en_US.UTF-8"
+
+ZSH_THEME="powerlevel9k/powerlevel9k"
+POWERLEVEL9K_MODE="awesome-fontconfig"
+
+source $ZSH/custom/themes/$ZSH_THEME.zsh-theme
+
+POWERLEVEL9K_FOLDER_ICON=""
+POWERLEVEL9K_HOME_SUB_ICON="$(print_icon "HOME_ICON")"
+#POWERLEVEL9K_DIR_PATH_SEPARATOR=" $(print_icon "LEFT_SUBSEGMENT_SEPARATOR") "
+
+POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=0
+
+#POWERLEVEL9K_DIR_OMIT_FIRST_CHARACTER=true
+POWERLEVEL9K_SHORTEN_DIR_LENGTH=2
+
+POWERLEVEL9K_BACKGROUND_JOBS_FOREGROUND='black'
+POWERLEVEL9K_BACKGROUND_JOBS_BACKGROUND='178'
+POWERLEVEL9K_NVM_BACKGROUND="238"
+POWERLEVEL9K_NVM_FOREGROUND="green"
+POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND="blue"
+POWERLEVEL9K_DIR_WRITABLE_FORBIDDEN_FOREGROUND="015"
+
+POWERLEVEL9K_TIME_BACKGROUND='255'
+#POWERLEVEL9K_COMMAND_TIME_FOREGROUND='gray'
+POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND='245'
+POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND='black'
+
+POWERLEVEL9K_TIME_FORMAT="%D{%H:%M}"
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(root_indicator dir dir_writable)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(vcs background_jobs command_execution_time time)
+POWERLEVEL9K_SHOW_CHANGESET=true
+
+#vi Mode config
+POWERLEVEL9K_VI_MODE_INSERT_ICON="$(print_icon "HOME_ICON")"
+POWERLEVEL9K_VI_MODE_INSERT_BACKGROUND='227'
+POWERLEVEL9K_VI_MODE_INSERT_FOREGROUND="blue"
+POWERLEVEL9K_VI_MODE_NORMAL_BACKGROUND='teal'
+POWERLEVEL9K_VI_MODE_NORMAL_FOREGROUND="blue"
+
+HYPHEN_INSENSITIVE="true"
+COMPLETION_WAITING_DOTS="true"
+# /!\ do not use with zsh-autosuggestions
+
+
+plugins=(k tig gitfast colored-man colorize command-not-found cp dirhistory autojump sudo zsh-syntax-highlighting)
+#plugins=(chef k tig gitfast colored-man colorize command-not-found cp dirhistory zsh-syntax-highlighting)
+#plugins=(colorize)
+# /!\ zsh-syntax-highlighting and then zsh-autosuggestions must be at the end
+
+source $ZSH/oh-my-zsh.sh
+
+typeset -gA ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+ZSH_HIGHLIGHT_STYLES[cursor]='bold'
+
+ZSH_HIGHLIGHT_STYLES[alias]='fg=green,bold'
+ZSH_HIGHLIGHT_STYLES[suffix-alias]='fg=green,bold'
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=green,bold'
+ZSH_HIGHLIGHT_STYLES[function]='fg=green,bold'
+ZSH_HIGHLIGHT_STYLES[command]='fg=green,bold'
+ZSH_HIGHLIGHT_STYLES[precommand]='fg=green,bold'
+ZSH_HIGHLIGHT_STYLES[hashed-command]='fg=green,bold'
+
+# 
+# 
+# rule () {
+# 	print -Pn '%F{blue}'
+# 	local columns=$(tput cols)
+# 	for ((i=1; i<=columns; i++)); do
+# 	   printf "\u2588"
+# 	done
+# 	print -P '%f'
+# }
+# 
+# function _my_clear() {
+# 	echo
+# 	rule
+# 	zle clear-screen
+# }
+# zle -N _my_clear
+# bindkey '^l' _my_clear
+# 
+# 
+# 
+# # Ctrl-O opens zsh at the current location, and on exit, cd into ranger's last location.
+# ranger-cd() {
+# 	tempfile=$(mktemp)
+# 	ranger --choosedir="$tempfile" "${@:-$(pwd)}" < $TTY
+# 	test -f "$tempfile" &&
+# 	if [ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]; then
+# 	cd -- "$(cat "$tempfile")"
+# 	fi
+# 	rm -f -- "$tempfile"
+# 	# hacky way of transferring over previous command and updating the screen
+# 	VISUAL=true zle edit-command-line
+# }
+# zle -N ranger-cd
+# bindkey '^o' ranger-cd
+
+
 
 # Set to this to use case-sensitive completion
 # export CASE_SENSITIVE="true"
@@ -14,7 +123,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Uncomment following line if you want to disable colors in ls
 # export DISABLE_LS_COLORS="true"
 #
-source $ZSH/oh-my-zsh.sh
+#source $ZSH/oh-my-zsh.sh
 
 # vi
 bindkey -v
@@ -49,7 +158,7 @@ export GOOS=linux
 export GOARCH=amd64
 
 # Customize to your needs...
-export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:$HOME/bin:$PATH
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:$HOME/bin:$PATH:~/.local/bin/
 
 export PATH=$CABALBIN:$PATH
 export PATH=$TEXBIN:$PATH
@@ -97,3 +206,5 @@ alias tf=terraform
 
 eval `dircolors ~/.dircolors`
 eval "$(chef shell-init zsh)"
+
+eval $(thefuck --alias)
