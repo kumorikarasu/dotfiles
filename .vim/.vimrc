@@ -7,6 +7,7 @@ filetype plugin indent on
 
 " Settings {{{
 set ts=2
+set tabstop=2
 set shiftwidth=2
 set expandtab
 set ai
@@ -150,9 +151,10 @@ let g:ctrlp_switch_buffer=0
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 
+set noshowmode
 set laststatus=2
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
+      \ 'colorscheme': 'srcery_drk',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
