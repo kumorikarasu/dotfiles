@@ -116,6 +116,7 @@ if exists(":Tabularize")
   vmap <Leader>=: :Tabularize /:\zs<CR>
 endif
 
+com! FormatJSON %!python -m json.tool
 " }}}
 
 " Plugin Options {{{

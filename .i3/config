@@ -137,6 +137,13 @@ bindsym Mod4+8 workspace $ws8
 bindsym Mod4+9 workspace $ws9
 bindsym Mod4+0 workspace $ws10
 
+# Bind workspace to screens
+workspace $ws1 output DP-4.2
+workspace $ws2 output DP-4.3
+workspace $ws3 output DP-4.3
+workspace $ws4 output eDP-1-1
+workspace $ws10 output eDP-1-1
+
 # move focused container to workspace
 bindsym Mod4+Shift+1 move container to workspace $ws1
 bindsym Mod4+Shift+2 move container to workspace $ws2
@@ -191,7 +198,7 @@ mode "mv workspace" {
   # back to normal: Enter or Escape or $mod+r
   bindsym Return mode "default"
   bindsym Escape mode "default"
-  bindsym $mod+o mode "default"
+  bindsym Mod4+o mode "default"
 }
 
 bindsym Mod4+o mode "mv workspace"
@@ -210,8 +217,6 @@ bindsym Mod4+o mode "mv workspace"
 bindsym Mod4+r exec "rofi -show run"
 bindsym Mod4+i exec "i3-input"
 bindsym Mod4+n exec "i3lock-fancy"
-
-exec_always --no-startup-id ~/.i3/polybar.sh &
 
 
 # Pulse Audio controls
@@ -237,3 +242,8 @@ exec --no-startup-id nm-applet
 
 #Disable mouse focus
 focus_follows_mouse no
+
+exec_always --no-startup-id ~/.i3/polybar.sh &
+
+#Fix keyboard startup issues
+exec --no-startup-id setxkbmap

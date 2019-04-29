@@ -14,12 +14,15 @@ export TERM="xterm-256color"
 export ZSH=/home/sean/.oh-my-zsh
 export LANG="en_US.UTF-8"
 
-ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 POWERLEVEL9K_MODE="awesome-fontconfig"
 
 source $ZSH/custom/themes/$ZSH_THEME.zsh-theme
+source ~/.fonts/*.sh
 
 POWERLEVEL9K_FOLDER_ICON=""
+POWERLEVEL9K_HOME_ICON=""
+
 POWERLEVEL9K_HOME_SUB_ICON="$(print_icon "HOME_ICON")"
 #POWERLEVEL9K_DIR_PATH_SEPARATOR=" $(print_icon "LEFT_SUBSEGMENT_SEPARATOR") "
 
@@ -42,7 +45,7 @@ POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND='black'
 
 POWERLEVEL9K_TIME_FORMAT="%D{%H:%M}"
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(root_indicator dir dir_writable)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(vcs background_jobs command_execution_time time)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status vcs background_jobs command_execution_time time)
 POWERLEVEL9K_SHOW_CHANGESET=true
 
 #vi Mode config
@@ -141,10 +144,14 @@ export SCHEME_DIR=$HOME/dev/scheme
 export COSH_BIN=$SCHEME_DIR/cosh/bin
 export VICARE_LIBRARY_PATH=$SCHEME_DIR/scheme-tools:$SCHEME_DIR/bher:$SCHEME_DIR/scheme-transforms:$SCHEME_DIR/cosh:$SCHEME_DIR/board
 export ROY_BIN=$HOME/dev/roy
-export JAVA_HOME=$HOME/dev/jdk1.7.0_05
-export JAVA_BIN=$HOME/dev/jdk1.7.0_05/bin
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export JAVA_BIN=$JAVA_HOME/bin
 export CLOJURESCRIPT_HOME=$HOME/dev/clojurescript
 export REDO_HOME=$HOME/dev/redo
+export CONSUL_HOME=$HOME/dev/consul
+export VAULT_HOME=$HOME/dev/vault
+export VIMV_HOME=$HOME/dev/vimv
+export KITTY_HOME=$HOME/.local/kitty.app
 
 export NODE_PATH=/usr/local/lib/node_modules
 export NODE_MODULES=./node_modules
@@ -153,7 +160,7 @@ export LUA_HOME=/opt/local/share/luarocks
 export LUA_BIN=$LUA_HOME/bin
 
 # GO
-export GOROOT=$HOME/dev/go
+export GOPATH=$HOME/dev/go
 export GOOS=linux
 export GOARCH=amd64
 
@@ -176,7 +183,11 @@ export PATH=$SCALA_HOME/bin:$PATH
 export PATH=$CLOJURESCRIPT_HOME/bin:$PATH
 export PATH=$REDO_HOME:$PATH
 export PATH=$NODE_MODULES/.bin:$PATH
-export PATH=$GOROOT/bin:$PATH
+export PATH=$GOPATH/bin:$PATH
+export PATH=$CONSUL_HOME/:$PATH
+export PATH=$VAULT_HOME/:$PATH
+export PATH=$VIMV_HOME/:$PATH
+export PATH=$KITTY_HOME/bin:$PATH
 
 source $HOME/.profile
 
@@ -203,8 +214,23 @@ alias crontab="VIM_CRONTAB=true crontab"
 alias st="git sourcetree"
 alias clip="xclip -selection clipboard"
 alias tf=terraform
+alias kbs='kubectl -n services'
+alias kbd='kubectl -n core-dev'
+alias kbl='kubectl -n elk'
 
 eval `dircolors ~/.dircolors`
-eval "$(chef shell-init zsh)"
 
-eval $(thefuck --alias)
+if [ $commands[chef] ]; then
+  eval "$(chef shell-init zsh)"
+fi
+
+if [ $commands[kubectl] ]; then
+  source <(kubectl completion zsh)
+fi
+
+if [ $commands[thefuck] ]; then
+  eval $(thefuck --alias)
+fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
