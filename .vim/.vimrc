@@ -57,7 +57,6 @@ imap <C-g> <C-k><-
 " left arrow ←
 imap <C-o> <C-k>Ob
 
-
 nnoremap <F10> :set invpaste paste?<CR>
 imap <F10> <C-O><F10>
 set pastetoggle=<F10>
@@ -102,19 +101,16 @@ cmap wag !git commit -am ""<Left>
 nnoremap x "_x
 nnoremap X "_X
 
-" Tabular bindings
-if exists(":Tabularize")
-  nmap <Leader>== :Tabularize /=<CR>
-  vmap <Leader>== :Tabularize /=<CR>
-  nmap <Leader>=, :Tabularize /,<CR>
-  vmap <Leader>=, :Tabularize /,<CR>
-  nmap <Leader>=<Bar> :Tabularize /<Bar><CR>
-  vmap <Leader>=<Bar> :Tabularize /<Bar><CR>
-  nmap <Leader>=:: :Tabularize /::<CR>
-  vmap <Leader>=:: :Tabularize /::<CR>
-  nmap <Leader>=: :Tabularize /:\zs<CR>
-  vmap <Leader>=: :Tabularize /:\zs<CR>
-endif
+nmap <Leader>== :Tabularize /=<CR>
+vmap <Leader>== :Tabularize /=<CR>
+nmap <Leader>=, :Tabularize /,<CR>
+vmap <Leader>=, :Tabularize /,<CR>
+nmap <Leader>=<Bar> :Tabularize /<Bar><CR>
+vmap <Leader>=<Bar> :Tabularize /<Bar><CR>
+nmap <Leader>=:: :Tabularize /::<CR>
+vmap <Leader>=:: :Tabularize /::<CR>
+nmap <Leader>=: :Tabularize /:\zs<CR>
+vmap <Leader>=: :Tabularize /:\zs<CR>
 
 com! FormatJSON %!python -m json.tool
 " }}}
@@ -183,6 +179,7 @@ au BufRead,BufNewFile *.galaxy set syn=galaxy
 au BufRead,BufNewFile *.glsl set syntax=glsl
 au BufRead,BufNewFile *.gnu set syn=gnuplot
 au BufRead,BufNewFile *.go set syntax=go
+au BufRead,BufNewFile *.gotmpl set syntax=gotmpl
 au BufRead,BufNewFile *.groovy set syn=groovy
 au BufRead,BufNewFile *.hx set syn=haxe
 au BufRead,BufNewFile *.java set sw=4
@@ -213,7 +210,13 @@ au BufRead,BufNewFile *.yml set syn=yaml
 au BufRead,BufNewFile /etc/nginx/* set ft=nginx
 au BufRead,BufNewFile nginx.conf set ft=nginx
 au BufRead,BufNewFile wscript set syn=python
+au BufRead,BufNewFile *.dockerfile set syn=dockerfile
 " }}}
+
+augroup javascript_folding
+    au!
+    au FileType javascript setlocal foldmethod=syntax
+augroup END
 
 function! PlaySound()
 " uncomment to annoy coworkers
@@ -250,4 +253,4 @@ function! GRCmd(cmd)
 endfunction
 
 "Autoreload .vimrc
-au! BufWritePost .vimrc source %
+"au! BufWritePost .vimrc source %

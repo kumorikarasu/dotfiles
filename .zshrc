@@ -1,4 +1,3 @@
-# Set to the name theme to load.
 #
 # Look in ~/.oh-my-zsh/themes/
 # export ZSH_THEME="kumori"
@@ -60,7 +59,7 @@ COMPLETION_WAITING_DOTS="true"
 # /!\ do not use with zsh-autosuggestions
 
 
-plugins=(k tig gitfast colored-man colorize command-not-found cp dirhistory autojump sudo zsh-syntax-highlighting)
+plugins=(tmux k knife tig gitfast colored-man-pages colorize command-not-found cp dirhistory autojump sudo fast-syntax-highlighting zsh-history-substring-search zsh-autosuggestions)
 #plugins=(chef k tig gitfast colored-man colorize command-not-found cp dirhistory zsh-syntax-highlighting)
 #plugins=(colorize)
 # /!\ zsh-syntax-highlighting and then zsh-autosuggestions must be at the end
@@ -130,6 +129,9 @@ ZSH_HIGHLIGHT_STYLES[hashed-command]='fg=green,bold'
 
 # vi
 bindkey -v
+
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
 
 export EDITOR=vim
 export TEXBIN=/usr/texbin
@@ -217,6 +219,9 @@ alias tf=terraform
 alias kbs='kubectl -n services'
 alias kbd='kubectl -n core-dev'
 alias kbl='kubectl -n elk'
+alias gts='git status'
+alias gits='git status'
+alias sdkms='sdkms-cli'
 
 eval `dircolors ~/.dircolors`
 

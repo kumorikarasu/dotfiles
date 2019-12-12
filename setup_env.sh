@@ -26,9 +26,22 @@ do
   ln -sf `pwd`/$FILE $HOME/$FILE
 done
 
-# Manually symlink config folders as there is a lot of files we do not want to track
-mkdir $HOME/.config
-ln -sf `pwd`/.config/polybar $HOME/.config/polybar
+# Create config directories
+mkdir -p $HOME/.config
+
+FILES=`ls -a .config | sed \
+      -e "1,2d"
+`
+
+for FILE in $FILES
+do
+  DEST=$HOME/.config/$FILE
+  if [ -e $DEST ]; then
+    mkdir -p $OLD/.config
+    mv $DEST $OLD/.config/$FILE
+  fi
+  ln -sf `pwd`/$FILE $HOME/.config/$FILE
+done
 
 # install vim config
 echo "Installing vim config..."
@@ -42,6 +55,19 @@ fi
 
 git clone http://github.com/robbyrussell/oh-my-zsh.git $HOME/$OHMY
 ln -sf `pwd`/kumori.zsh-theme $HOME/$OHMY/themes/kumori.zsh-theme
+
+# oh-my-zsh plugins
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/supercrabtree/k ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/k
+git clone https://github.com/zdharma/fast-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+# oh-my-zsh themes
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
+
+# Update vim submodules
+cd .vim/bundle && git submodule update --init --recursive
 
 echo "Changing shell to /bin/zsh ..."
 chsh -s /bin/zsh
