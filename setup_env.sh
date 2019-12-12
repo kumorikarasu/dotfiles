@@ -40,7 +40,7 @@ do
     mkdir -p $OLD/.config
     mv $DEST $OLD/.config/$FILE
   fi
-  ln -sf `pwd`/$FILE $HOME/.config/$FILE
+  ln -sf `pwd`/.config/$FILE $HOME/.config/$FILE
 done
 
 # install vim config
