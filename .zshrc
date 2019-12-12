@@ -237,5 +237,8 @@ if [ $commands[thefuck] ]; then
   eval $(thefuck --alias)
 fi
 
+# Helm autocompletion
+source ~/.helmrc
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
