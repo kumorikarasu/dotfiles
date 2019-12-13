@@ -15,8 +15,6 @@ export LANG="en_US.UTF-8"
 
 ZSH_THEME="kumori"
 
-source ~/.fonts/*.sh
-
 plugins=(tmux k knife tig gitfast colored-man-pages colorize command-not-found cp dirhistory autojump sudo fast-syntax-highlighting zsh-history-substring-search zsh-autosuggestions)
 #plugins=(chef k tig gitfast colored-man colorize command-not-found cp dirhistory zsh-syntax-highlighting)
 #plugins=(colorize)
