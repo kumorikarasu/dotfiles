@@ -1,66 +1,66 @@
 [submodule "clang_complete"]
-	path = .vim/bundle/clang_complete
-	url = https://github.com/Rip-Rip/clang_complete.git
+        path = .vim/bundle/clang_complete
+        url = https://github.com/Rip-Rip/clang_complete.git
 [submodule ".vim/bundle/ctrlp"]
-	path = .vim/bundle/ctrlp
-	url = https://github.com/kien/ctrlp.vim.git
+        path = .vim/bundle/ctrlp
+        url = https://github.com/kien/ctrlp.vim.git
 [submodule ".vim/bundle/powerline"]
-	path = .vim/bundle/powerline
-	url = https://github.com/Lokaltog/vim-powerline.git
+        path = .vim/bundle/powerline
+        url = https://github.com/Lokaltog/vim-powerline.git
 [submodule ".vim/bundle/easymotion"]
-	path = .vim/bundle/easymotion
-	url = https://github.com/Lokaltog/vim-easymotion.git
+        path = .vim/bundle/easymotion
+        url = https://github.com/Lokaltog/vim-easymotion.git
 [submodule ".vim/bundle/fugitive"]
-	path = .vim/bundle/fugitive
-	url = https://github.com/tpope/vim-fugitive.git
+        path = .vim/bundle/fugitive
+        url = https://github.com/tpope/vim-fugitive.git
 [submodule ".vim/bundle/syntastic"]
-	path = .vim/bundle/syntastic
-	url = https://github.com/scrooloose/syntastic.git
+        path = .vim/bundle/syntastic
+        url = https://github.com/scrooloose/syntastic.git
 [submodule ".vim/bundle/roy"]
-	path = .vim/bundle/roy
-	url = gh:jb55/Vim-Roy.git
+        path = .vim/bundle/roy
+        url = https://github.com/jb55/Vim-Roy.git
 [submodule ".vim/bundle/snippets"]
-	path = .vim/bundle/snippets
-	url = https://github.com/jb55/snipmate-snippets.git
+        path = .vim/bundle/snippets
+        url = https://github.com/jb55/snipmate-snippets.git
 [submodule ".vim/bundle/ghcmod"]
-	path = .vim/bundle/ghcmod
-	url = https://github.com/eagletmt/ghcmod-vim.git
+        path = .vim/bundle/ghcmod
+        url = https://github.com/eagletmt/ghcmod-vim.git
 [submodule ".vim/bundle/nerdtree"]
-	path = .vim/bundle/nerdtree
-	url = https://github.com/scrooloose/nerdtree.git
+        path = .vim/bundle/nerdtree
+        url = https://github.com/scrooloose/nerdtree.git
 [submodule ".vim/bundle/vim-fugitive"]
-	path = .vim/bundle/vim-fugitive
-	url = https://github.com/tpope/vim-fugitive.git
+        path = .vim/bundle/vim-fugitive
+        url = https://github.com/tpope/vim-fugitive.git
 [submodule ".vim/bundle/tabular"]
-	path = .vim/bundle/tabular
-	url = git://github.com/godlygeek/tabular.git
+        path = .vim/bundle/tabular
+        url = https://github.com/godlygeek/tabular.git
 [submodule ".vim/bundle/nerdtree-git-plugin"]
-	path = .vim/bundle/nerdtree-git-plugin
-	url = https://github.com/Xuyuanp/nerdtree-git-plugin.git
+        path = .vim/bundle/nerdtree-git-plugin
+        url = https://github.com/Xuyuanp/nerdtree-git-plugin.git
 [submodule ".vim/bundle/surround"]
-	path = .vim/bundle/surround
-	url = https://tpope.io/vim/surround.git
+        path = .vim/bundle/surround
+        url = https://github.com/tpope/vim-surround.git
 [submodule ".vim/bundle/ctrlp.vim"]
-	path = .vim/bundle/ctrlp.vim
-	url = https://github.com/kien/ctrlp.vim.git
+        path = .vim/bundle/ctrlp.vim
+        url = https://github.com/kien/ctrlp.vim.git
 [submodule ".vim/bundle/lightline.vim"]
-	path = .vim/bundle/lightline.vim
-	url = https://github.com/itchyny/lightline.vim
+        path = .vim/bundle/lightline.vim
+        url = https://github.com/itchyny/lightline.vim
 [submodule ".vim/bundle/vim-multiple-cursors"]
-	path = .vim/bundle/vim-multiple-cursors
-	url = https://github.com/terryma/vim-multiple-cursors.git
+        path = .vim/bundle/vim-multiple-cursors
+        url = https://github.com/terryma/vim-multiple-cursors.git
 [submodule ".vim/bundle/vim-gitgutter"]
-	path = .vim/bundle/vim-gitgutter
-	url = git://github.com/airblade/vim-gitgutter.git
+        path = .vim/bundle/vim-gitgutter
+        url = https://github.com/airblade/vim-gitgutter.git
 [submodule ".vim/bundle/vim-colorschemes"]
-	path = .vim/bundle/vim-colorschemes
-	url = https://github.com/flazz/vim-colorschemes.git
+        path = .vim/bundle/vim-colorschemes
+        url = https://github.com/flazz/vim-colorschemes.git
 [submodule ".vim/bundle/ack.vim"]
-	path = .vim/bundle/ack.vim
-	url = https://github.com/mileszs/ack.vim.git
+        path = .vim/bundle/ack.vim
+        url = https://github.com/mileszs/ack.vim.git
 [submodule ".vim/bundle/vim-javascript"]
-	path = .vim/bundle/vim-javascript
-	url = https://github.com/pangloss/vim-javascript.git
+        path = .vim/bundle/vim-javascript
+        url = https://github.com/pangloss/vim-javascript.git
 [submodule ".vim/bundle/vikube.vim"]
-	path = .vim/bundle/vikube.vim
-	url = https://github.com/c9s/vikube.vim.git
+        path = .vim/bundle/vikube.vim
+        url = https://github.com/c9s/vikube.vim.git
