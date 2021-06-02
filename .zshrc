@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 #
 # Look in ~/.oh-my-zsh/themes/
 # export ZSH_THEME="kumori"
@@ -10,11 +17,11 @@ export ZSH=$HOME/.oh-my-zsh
 
 export DEFAULT_USER="kumori"
 export TERM="xterm-256color"
-export ZSH=/home/sean/.oh-my-zsh
+export ZSH=/home/$DEFAULT_USER/.oh-my-zsh
 export LANG="en_US.UTF-8"
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
-POWERLEVEL9K_MODE="awesome-fontconfig"
+# POWERLEVEL9K_MODE="awesome-fontconfig"
 
 source $ZSH/custom/themes/$ZSH_THEME.zsh-theme
 source ~/.fonts/*.sh
@@ -154,6 +161,7 @@ export CONSUL_HOME=$HOME/dev/consul
 export VAULT_HOME=$HOME/dev/vault
 export VIMV_HOME=$HOME/dev/vimv
 export KITTY_HOME=$HOME/.local/kitty.app
+export ISTIO_HOME=$HOME/dev/istio
 
 export NODE_PATH=/usr/local/lib/node_modules
 export NODE_MODULES=./node_modules
@@ -162,6 +170,7 @@ export LUA_HOME=/opt/local/share/luarocks
 export LUA_BIN=$LUA_HOME/bin
 
 # GO
+export GOROOT=/usr/local/go
 export GOPATH=$HOME/dev/go
 export GOOS=linux
 export GOARCH=amd64
@@ -185,11 +194,12 @@ export PATH=$SCALA_HOME/bin:$PATH
 export PATH=$CLOJURESCRIPT_HOME/bin:$PATH
 export PATH=$REDO_HOME:$PATH
 export PATH=$NODE_MODULES/.bin:$PATH
-export PATH=$GOPATH/bin:$PATH
+export PATH=$GOROOT/bin:$PATH
 export PATH=$CONSUL_HOME/:$PATH
 export PATH=$VAULT_HOME/:$PATH
 export PATH=$VIMV_HOME/:$PATH
 export PATH=$KITTY_HOME/bin:$PATH
+export PATH=$ISTIO_HOME/bin:$PATH
 
 source $HOME/.profile
 
@@ -201,6 +211,7 @@ export EDITOR=vim
 export PAGER=less
 
 # alias
+alias vi="vim"
 alias githist="git reflog show | grep '}: commit' | nl | sort -nr | nl | sort -nr | cut --fields=1,3 | sed s/commit://g | sed -e 's/HEAD*@{[0-9]*}://g'"
 alias ack="ack --pager='less -R'"
 alias glg="git log --graph"
@@ -242,3 +253,14 @@ source ~/.helmrc
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+source "/home/kumori/code/kube/recode/scripts/auto-complete.sh"
+
+
+# {{{ WSL Fixex
+if [[ "$(umask)" = "000" ]]; then
+    umask 22
+fi
+
+# export DOCKER_HOST=tcp://localhost:2375
+export DOCKER_HOST=unix:///var/run/docker.sock
+# }}} WSL Fixes

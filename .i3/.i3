@@ -1,1 +1,1 @@
-/home/sean/dotfiles/.i3
+/home/kumori/dotfiles/.i3

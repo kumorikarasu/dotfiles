@@ -9,7 +9,6 @@ filetype plugin indent on
 set ts=2
 set tabstop=2
 set shiftwidth=2
-set expandtab
 set ai
 set hlsearch
 set hidden
@@ -139,6 +138,8 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
+let g:syntastic_python_python_exec = 'python3'
+let g:syntastic_python_checkers = ['python']
 
 let g:ctrlp_extensions = ['tag']
 let g:EasyMotion_leader_key = '<Leader>'
@@ -252,5 +253,9 @@ function! GRCmd(cmd)
   :call RCmd("git --no-pager " . a:cmd)
 endfunction
 
+let g:vimspector_enable_mappings = 'HUMAN'
+
 "Autoreload .vimrc
 "au! BufWritePost .vimrc source %
+
+set expandtab
