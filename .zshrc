@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 #
 # Look in ~/.oh-my-zsh/themes/
 # export ZSH_THEME="kumori"
@@ -8,16 +15,16 @@
 # Path to your oh-my-zsh configuration.
 export ZSH=$HOME/.oh-my-zsh
 
-export DEFAULT_USER="kumori"
+export DEFAULT_USER="$(whoami)"
 export TERM="xterm-256color"
-export ZSH=/home/sean/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 export LANG="en_US.UTF-8"
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
 POWERLEVEL9K_MODE="awesome-fontconfig"
 
 source $ZSH/custom/themes/$ZSH_THEME.zsh-theme
-source ~/.fonts/*.sh
+[[ ! -d ~/.fonts ]] || source ~/.fonts/*.sh
 
 POWERLEVEL9K_FOLDER_ICON=""
 POWERLEVEL9K_HOME_ICON=""
@@ -194,7 +201,7 @@ export PATH=$KITTY_HOME/bin:$PATH
 source $HOME/.profile
 
 # Groovy
-source $HOME/.sdkman/bin/sdkman-init.sh
+[[ ! -d ~/.sdkman ]] || source $HOME/.sdkman/bin/sdkman-init.sh
 
 # other
 export EDITOR=vim
@@ -242,3 +249,6 @@ source ~/.helmrc
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p11k.zsh ]] || source ~/.p10k.zsh
