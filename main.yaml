@@ -16,6 +16,7 @@
           - vim
           - tmux
           - autojump
+          - curl
           - build-essential
           - pkg-config
           - clang
