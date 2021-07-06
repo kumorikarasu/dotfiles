@@ -5,7 +5,27 @@
   hosts: all
   vars:
     the_user: "{{ ansible_user_id }}"
+  roles:
+    - role: hurricanehrndz.rustup
+
+- name: Local Play
+  connection: local
+  hosts: all
+  vars:
+    the_user: "{{ ansible_user_id }}"
   tasks:
+    - name: Add Docker Key
+      become: true
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg 
+        state: present
+
+    - name: Add Docker Apt Repo
+      become: true
+      ansible.builtin.apt_repository:
+        repo: "deb https://download.docker.com/linux/ubuntu focal stable"
+        state: present
+
     - name: Install packages
       become: true
       ansible.builtin.package:
@@ -18,6 +38,17 @@
           - autojump
           - curl
           - build-essential
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+          - containerd.io
+          - docker-ce 
+          - docker-ce-cli 
+          - docker-compose
+          - arandr
+          - rofi
           - pkg-config
           - clang
           - git
@@ -26,6 +57,8 @@
           - python3-sphinx 	
           - python3-packaging
           - libcairo2-dev
+          - ack
+          - silversearcher-ag
           - i3
           - i3-wm
           - libxcb1-dev
@@ -47,6 +80,10 @@
           - libmpdclient-dev 
           - libcurl4-openssl-dev 
           - libnl-genl-3-dev
+          - libfreetype6-dev 
+          - libfontconfig1-dev
+          - libxcb-xfixes0-dev 
+          - libxkbcommon-dev
           - python3-dev 
           - python3-pip
           - python3-setuptools
@@ -58,6 +95,18 @@
       loop:
         - thefuck
 
+    - name: Docker Group
+      become: true
+      group:
+        name: docker
+        state: present
+
+    - name: Add user to docker group
+      become: true
+      user:
+        name: "{{ the_user }}"
+        groups: docker
+        append: yes
 
     - name: Home Folders
       file:
@@ -66,6 +115,36 @@
       loop:
         - "~/code"
         - "~/dev"
+        - "~/dev/exec"
+
+    - name: Install Kind
+      get_url:
+        url: https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
+        dest: /usr/local/bin/kind
+        mode: '0755'
+
+    - name: Install Kubectl
+      become: yes
+      get_url:
+        url: https://dl.k8s.io/release/v1.21.0/bin/linux/amd64/kubectl
+        dest: /usr/local/bin/kubectl
+        mode: '0755'
+
+    - name: Install Helm
+      become: yes
+      unarchive:
+        remote_src: yes
+        src: https://get.helm.sh/helm-v3.6.2-linux-amd64.tar.gz
+        dest: /usr/local/bin
+        mode: '0755'
+
+    - name: Install Terraform
+      become: yes
+      unarchive:
+        remote_src: yes
+        src: https://releases.hashicorp.com/terraform/1.0.1/terraform_1.0.1_linux_amd64.zip
+        dest: /usr/local/bin
+        mode: '0755'
 
     - name: Download Polybar
       git:
@@ -84,11 +163,17 @@
           # Optional. This will install the polybar executable in /usr/local/bin
           sudo make install
 
-    - name: Download Dotfiles
+    - name: Download Alacritty
       git:
-        repo: 'https://github.com/kumorikarasu/dotfiles.git'
-        dest: ~/dotfiles
-        version: linux
+        repo: 'https://github.com/alacritty/alacritty.git'
+        dest: ~/dev/alacritty
+        version: master
+
+    - name: Build Alacritty
+      shell: 
+        chdir: ~/dev/alacritty
+        cmd: |  
+          ~/.cargo/bin/cargo build --release
 
     - name: Set Shell
       become: yes
