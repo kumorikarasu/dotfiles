@@ -15,7 +15,7 @@ fi
 # Path to your oh-my-zsh configuration.
 export ZSH=$HOME/.oh-my-zsh
 
-export DEFAULT_USER="kumori"
+export DEFAULT_USER="$(whoami)"
 export TERM="xterm-256color"
 export ZSH=/home/$DEFAULT_USER/.oh-my-zsh
 export LANG="en_US.UTF-8"
@@ -24,7 +24,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # POWERLEVEL9K_MODE="awesome-fontconfig"
 
 source $ZSH/custom/themes/$ZSH_THEME.zsh-theme
-source ~/.fonts/*.sh
+[[ ! -d ~/.fonts ]] || source ~/.fonts/*.sh
 
 POWERLEVEL9K_FOLDER_ICON=""
 POWERLEVEL9K_HOME_ICON=""
@@ -204,7 +204,7 @@ export PATH=$ISTIO_HOME/bin:$PATH
 source $HOME/.profile
 
 # Groovy
-source $HOME/.sdkman/bin/sdkman-init.sh
+[[ ! -d ~/.sdkman ]] || source $HOME/.sdkman/bin/sdkman-init.sh
 
 # other
 export EDITOR=vim
@@ -253,6 +253,7 @@ source ~/.helmrc
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
 source "/home/kumori/code/kube/recode/scripts/auto-complete.sh"
 
 
@@ -264,3 +265,6 @@ fi
 # export DOCKER_HOST=tcp://localhost:2375
 export DOCKER_HOST=unix:///var/run/docker.sock
 # }}} WSL Fixes
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p11k.zsh ]] || source ~/.p10k.zsh

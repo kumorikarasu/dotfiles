@@ -29,7 +29,7 @@ secondary = #e60053
 alert = #bd2c40
 
 [bar/example]
-monitor = DP-4.2
+monitor = HDMI-1-1
 #${env:MONITOR:}
 monitor-fallback = eDP-1-1
 width = 100%
@@ -61,9 +61,10 @@ module-margin-right = 2
 #font-4 = Terminus:size=12;0
 #font-5 = unifont:fontformat=truetype:size=4:antialias=false;-2
 
-font-0 = NotoSans-Regular:size=8;2
+font-0 = NotoSans-Regular:size=10;2
 font-1 = unifont:size=6;-3
-font-2 = Roboto Mono Nerd Font:size=10;2
+font-2 = MesloLGS NF:size=16;2
+;font-2 = Roboto Mono Nerd Font:size=10;2
 ;font-2 = FontAwesome:size=10;2
 font-3 = NotoSans-Regular:size=8;-1
 font-4 = MaterialIcons:size=10;-1
