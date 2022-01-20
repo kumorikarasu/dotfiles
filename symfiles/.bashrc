@@ -111,3 +111,4 @@ export NVM_DIR="$HOME/.nvm"
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/kumori/.sdkman"
 [[ -s "/home/kumori/.sdkman/bin/sdkman-init.sh" ]] && source "/home/kumori/.sdkman/bin/sdkman-init.sh"
+. "$HOME/.cargo/env"

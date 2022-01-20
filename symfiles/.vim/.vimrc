@@ -212,6 +212,9 @@ au BufRead,BufNewFile /etc/nginx/* set ft=nginx
 au BufRead,BufNewFile nginx.conf set ft=nginx
 au BufRead,BufNewFile wscript set syn=python
 au BufRead,BufNewFile *.dockerfile set syn=dockerfile
+au BufRead,BufNewFile *.ts set syn=typescript
+au BufRead,BufNewFile *.hcl set syn=hcl
+au BufRead,BufNewFile *.tf set syn=terraform
 " }}}
 
 augroup javascript_folding

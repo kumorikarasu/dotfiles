@@ -233,6 +233,10 @@ alias kbl='kubectl -n elk'
 alias gts='git status'
 alias gits='git status'
 alias sdkms='sdkms-cli'
+alias l='ls -latr'
+alias mp='make plan'
+alias md='make deploy'
+alias sshi='ssh -o StrictHostKeyChecking=no'
 
 eval `dircolors ~/.dircolors`
 
@@ -253,9 +257,9 @@ source ~/.helmrc
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 source "/home/kumori/code/kube/recode/scripts/auto-complete.sh"
-
 
 # {{{ WSL Fixex
 if [[ "$(umask)" = "000" ]]; then
