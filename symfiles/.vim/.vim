@@ -1,1 +1,1 @@
-/home/kumori/dotfiles/symfiles/.vim
+/home/kumori/dotfiles3/symfiles/.vim

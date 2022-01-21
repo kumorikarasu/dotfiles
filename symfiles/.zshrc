@@ -200,6 +200,7 @@ export PATH=$VAULT_HOME/:$PATH
 export PATH=$VIMV_HOME/:$PATH
 export PATH=$KITTY_HOME/bin:$PATH
 export PATH=$ISTIO_HOME/bin:$PATH
+export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
 
 source $HOME/.profile
 
