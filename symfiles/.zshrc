@@ -239,6 +239,16 @@ alias mp='make plan'
 alias md='make deploy'
 alias sshi='ssh -o StrictHostKeyChecking=no'
 
+Make() {
+  if [ -f Taskfile.yaml ]; then
+    task @
+  else
+    make @
+  fi
+}
+
+alias make='Make'
+
 eval `dircolors ~/.dircolors`
 
 if [ $commands[chef] ]; then
