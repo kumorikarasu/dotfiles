@@ -118,7 +118,7 @@ function brewstall() {
   done
 }
 
-brewstall k9s helm terraform jq
+brewstall k9s helm terraform jq go-task/tap/go-task
 execute 'S_BREW' brew upgrade
 
 log "create folders"
