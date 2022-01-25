@@ -241,12 +241,11 @@ alias sshi='ssh -o StrictHostKeyChecking=no'
 
 Make() {
   if [ -f Taskfile.yaml ]; then
-    task @
+    task "$@"
   else
-    make @
+    make "$@"
   fi
 }
-
 alias make='Make'
 
 eval `dircolors ~/.dircolors`
