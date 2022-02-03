@@ -1,11 +1,19 @@
 #!/bin/bash
 
+function entry() {
+
 OSDISTRO=`grep '^NAME' /etc/os-release`
 
 if [[ $OSTYPE == darwin* ]]; then
 AWK_CMD=gawk
 else
-AWK_CMD=awk
+AWK_CMD=gawk
+fi
+
+if ! command -v awk &> /dev/null; then
+  echo "Missing core utils requires to run this script, running update"
+  sudo apt-get update
+  sudo apt-get install -y gawk sed
 fi
 
 # Colours
@@ -32,8 +40,9 @@ S_CRITICAL="${C_RED}${C_BOLD}CRITICAL${C_STOP}"
 S_BREW="${C_ORANGE} ${C_MAGENTA}BREW ${C_STOP}"
   S_GIT="${C_GREEN} ${C_MAGENTA}GIT  ${C_STOP}"
  S_APT="${C_YELLOW} ${C_MAGENTA}APT  ${C_STOP}"
+   S_RUBY="${C_RED} ${C_MAGENTA}RUBY ${C_STOP}"
 
-log() {
+function log() {
   if [[ -z $2 ]]; then
     echo -e "${C_BLUE} ${C_MAGENTA}SETUP${C_STOP}: $1"
   else
@@ -42,7 +51,7 @@ log() {
 }
 
 function execute() {
-  SEDCMP="s/^/${C_DGREEN}${!1}${C_STOP}|/; s/[eE][rR][rR][oO][rR]/$S_ERROR/; s/[wW][aA][rR][nN][iI][nN][gG]/$S_WARNING/; s/[sS][uU][cC][cC][eE][sS][sS]/$S_SUCCESS/; s/[cC][hH][eE][cC][kK][iI][nN][gG]/$S_CHECKING/;"
+  SEDCMP="s/^/${C_DGREEN}${!1}${C_STOP}: /; s/[eE][rR][rR][oO][rR]/$S_ERROR/; s/[wW][aA][rR][nN][iI][nN][gG]/$S_WARNING/; s/[sS][uU][cC][cC][eE][sS][sS][ :]/$S_SUCCESS/; s/[cC][hH][eE][cC][kK][iI][nN][gG]/$S_CHECKING/;"
  
   if [[ $OSTYPE == darwin* ]]; then
     echo -e $(stdbuf -o0 ${@:2} 2>&1 \
@@ -51,8 +60,7 @@ function execute() {
       | $AWK_CMD 'BEGIN { FS = "|" } ; { printf "%-24s: %s\\n", $1, $2 }')
   else
     stdbuf -o0 "${@:2}" 2>&1 \
-      | sed "$SEDCMP" \
-      | $AWK_CMD 'BEGIN { FS = "|" } ; { printf "%-24s: %s\n", $1, $2 }'
+      | sed "$SEDCMP"
   fi
 }
 
@@ -74,38 +82,52 @@ if [ ! -d $OLD ]; then
 fi
 
 
-## Setup SUDO so we don't have to enter our password anymore
-log "Setting SUDO to non-interactive mode"
-echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers &>/dev/null
+## ====================== Sudo Setup and Removal Trap
+log "Setting SUDO to non-interactive mode temporarily"
+function finish {
+  sudo sed -i "s/kumori ALL=(ALL) NOPASSWD:ALL//g" /etc/sudoers
+}
+trap finish EXIT
+#echo 'kumori ALL=(ALL) NOPASSWD:ALL' | sudo tee -a /etc/sudoers &>/dev/null
 
-## Install Brew
-if ! command -v brew &> /dev/null; then
-  log "Install Brew" 'S_BREW'
-  export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
-  yes | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
+## ====================== Apt Packages
 
-# Apt Packages
 function aptstall() {
   LIST=$(sudo dpkg --get-selections)
   for pkg in $@ 
   do
     if [ `echo $LIST | grep -c "$pkg"` -eq 0 ]; then
-      execute 'S_APT' sudo apt-get install -y $CMD
       if sudo apt-get -qq install $pkg; then
         log "Installed $pkg" 'S_APT'
       else
-        log "${C_RED}ERROR${C_STOP} installing $pkg" 'S_APT'
+        log "ERROR installing $pkg" 'S_APT'
       fi
-    else
-      log "$pkg Installed" 'S_APT'
     fi
   done
 }
 
-log "Apt Update" 'S_APT' 
+## tzdata 'hack'
+sudo ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
+
+log "apt update" 'S_APT' 
 sudo apt-get update &> /dev/null
-aptstall zsh vim clang tmux autojump curl build-essential apt-transport-https ca-certificates gnupg containerd.io docker-ce docker-ce-cli docker-compose cmake python3 silversearcher-ag
+
+aptstall rsync zsh vim tmux autojump curl build-essential apt-transport-https ca-certificates gnupg containerd.io docker-ce docker-ce-cli cmake python3 silversearcher-ag gcc-5 g++-5
+execute 'S_APT' sudo apt-get upgrade -y
+
+# clang
+
+#if [[ -z $IsDesktop ]]; then
+  #sudo apt-get upgrade -y
+#fi
+
+## ====================== Brew
+
+if ! command -v brew &> /dev/null; then
+  log "Install Brew" 'S_BREW'
+  export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
+  yes | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
 
 # Brew Packages
 function brewstall() {
@@ -118,8 +140,15 @@ function brewstall() {
   done
 }
 
-brewstall k9s helm terraform jq go-task/tap/go-task
+brewstall k9s helm terraform jq go-task/tap/go-task docker-compose awscli rbenv linkerd kubectl
 execute 'S_BREW' brew upgrade
+
+## ====================== Ruby
+# Ruby Install and Setup
+RUBY_CONFIGURE_OPTS=--with-readline-dir="$(brew --prefix readline)" execute 'S_RUBY' rbenv install -s 3.1.0 
+execute 'S_RUBY' gem install --user-install terraspace
+
+## ====================== Config Folders
 
 log "create folders"
 mkdir -p $HOME/.config
@@ -189,29 +218,34 @@ clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel
 # Vim Plugins
 log "Installing VIM Plugins"
 VIM_CUSTOM=${VIM_CUSTOM:-~/.vim}
-clone  https://github.com/mileszs/ack.vim.git $VIM_CUSTOM/bundle/ack.vim
-clone  https://github.com/Rip-Rip/clang_complete.git $VIM_CUSTOM/bundle/clang_complete
-clone  https://github.com/kien/ctrlp.vim.git $VIM_CUSTOM/bundle/ctrlp
-clone  https://github.com/Lokaltog/vim-easymotion.git $VIM_CUSTOM/bundle/easymotion
-clone  https://github.com/tpope/vim-fugitive.git $VIM_CUSTOM/bundle/fugitive
-clone  https://github.com/eagletmt/ghcmod-vim.git $VIM_CUSTOM/bundle/ghcmod
-clone  https://github.com/itchyny/lightline.vim $VIM_CUSTOM/bundle/lightline.vim
-clone  https://github.com/scrooloose/nerdtree.git $VIM_CUSTOM/bundle/nerdtree
-clone  https://github.com/Xuyuanp/nerdtree-git-plugin.git $VIM_CUSTOM/bundle/nerdtree-git-plugin
-clone  https://github.com/Lokaltog/vim-powerline.git $VIM_CUSTOM/bundle/powerline
-clone  https://github.com/jb55/Vim-Roy.git $VIM_CUSTOM/bundle/roy
-clone  https://github.com/jb55/snipmate-snippets.git $VIM_CUSTOM/bundle/snippets
-clone  https://github.com/tpope/vim-surround.git $VIM_CUSTOM/bundle/surround
-clone  https://github.com/scrooloose/syntastic.git $VIM_CUSTOM/bundle/syntastic
-clone  https://github.com/godlygeek/tabular.git $VIM_CUSTOM/bundle/tabular
-clone  https://github.com/c9s/vikube.vim.git $VIM_CUSTOM/bundle/vikube.vim
-clone  https://github.com/tpope/vim-fugitive.git $VIM_CUSTOM/bundle/vim-fugitive
-clone  https://github.com/airblade/vim-gitgutter.git $VIM_CUSTOM/bundle/vim-gitgutter
-clone  https://github.com/pangloss/vim-javascript.git $VIM_CUSTOM/bundle/vim-javascript
-clone  https://github.com/terryma/vim-multiple-cursors.git $VIM_CUSTOM/bundle/vim-multiple-cursors
-clone  https://github.com/flazz/vim-colorschemes.git $VIM_CUSTOM/bundle/vim-colorschemes
-
+clone https://github.com/mileszs/ack.vim.git $VIM_CUSTOM/bundle/ack.vim
+clone https://github.com/Rip-Rip/clang_complete.git $VIM_CUSTOM/bundle/clang_complete
+clone https://github.com/kien/ctrlp.vim.git $VIM_CUSTOM/bundle/ctrlp
+clone https://github.com/Lokaltog/vim-easymotion.git $VIM_CUSTOM/bundle/easymotion
+clone https://github.com/tpope/vim-fugitive.git $VIM_CUSTOM/bundle/fugitive
+clone https://github.com/eagletmt/ghcmod-vim.git $VIM_CUSTOM/bundle/ghcmod
+clone https://github.com/itchyny/lightline.vim $VIM_CUSTOM/bundle/lightline.vim
+clone https://github.com/scrooloose/nerdtree.git $VIM_CUSTOM/bundle/nerdtree
+clone https://github.com/Xuyuanp/nerdtree-git-plugin.git $VIM_CUSTOM/bundle/nerdtree-git-plugin
+clone https://github.com/Lokaltog/vim-powerline.git $VIM_CUSTOM/bundle/powerline
+clone https://github.com/jb55/Vim-Roy.git $VIM_CUSTOM/bundle/roy
+clone https://github.com/jb55/snipmate-snippets.git $VIM_CUSTOM/bundle/snippets
+clone https://github.com/tpope/vim-surround.git $VIM_CUSTOM/bundle/surround
+clone https://github.com/scrooloose/syntastic.git $VIM_CUSTOM/bundle/syntastic
+clone https://github.com/godlygeek/tabular.git $VIM_CUSTOM/bundle/tabular
+clone https://github.com/c9s/vikube.vim.git $VIM_CUSTOM/bundle/vikube.vim
+clone https://github.com/tpope/vim-fugitive.git $VIM_CUSTOM/bundle/vim-fugitive
+clone https://github.com/airblade/vim-gitgutter.git $VIM_CUSTOM/bundle/vim-gitgutter
+clone https://github.com/pangloss/vim-javascript.git $VIM_CUSTOM/bundle/vim-javascript
+clone https://github.com/terryma/vim-multiple-cursors.git $VIM_CUSTOM/bundle/vim-multiple-cursors
+clone https://github.com/flazz/vim-colorschemes.git $VIM_CUSTOM/bundle/vim-colorschemes
+clone https://github.com/hashivim/vim-terraform.git $VIM_CUSTOM/bundle/vim-terraform
 clone https://github.com/puremourning/vimspector.git $VIM_CUSTOM/pack/vimspector
 
 log "Changing shell to /bin/zsh ..."
 sudo chsh -s /bin/zsh $USER
+}
+
+TIMEFORMAT="Update took %Rs"
+time entry "$@"
+

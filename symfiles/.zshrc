@@ -51,7 +51,8 @@ POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND='black'
 
 POWERLEVEL9K_TIME_FORMAT="%D{%H:%M}"
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(root_indicator dir dir_writable)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status vcs background_jobs command_execution_time time)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status vcs kubecontext background_jobs command_execution_time time)
+POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito|k9s|helmfile|fluxctl|stern'
 POWERLEVEL9K_SHOW_CHANGESET=true
 
 #vi Mode config
@@ -66,7 +67,7 @@ COMPLETION_WAITING_DOTS="true"
 # /!\ do not use with zsh-autosuggestions
 
 
-plugins=(tmux k knife tig gitfast colored-man-pages colorize command-not-found cp dirhistory autojump sudo fast-syntax-highlighting zsh-history-substring-search zsh-autosuggestions)
+plugins=(tmux aws k knife tig gitfast colored-man-pages colorize command-not-found cp dirhistory autojump sudo fast-syntax-highlighting zsh-history-substring-search zsh-autosuggestions)
 #plugins=(chef k tig gitfast colored-man colorize command-not-found cp dirhistory zsh-syntax-highlighting)
 #plugins=(colorize)
 # /!\ zsh-syntax-highlighting and then zsh-autosuggestions must be at the end
@@ -200,8 +201,10 @@ export PATH=$VAULT_HOME/:$PATH
 export PATH=$VIMV_HOME/:$PATH
 export PATH=$KITTY_HOME/bin:$PATH
 export PATH=$ISTIO_HOME/bin:$PATH
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+export PATH="$PATH:${LINKERD_ROOT:-$HOME}/.linkerd2/bin"
+export PATH="$PATH:/home/kumori/.gem/ruby/3.0.0/bin"
 export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
-
 source $HOME/.profile
 
 # Groovy
@@ -263,13 +266,12 @@ if [ $commands[thefuck] ]; then
 fi
 
 # Helm autocompletion
-source ~/.helmrc
+[ -f "$HOME/.helmrc" ] && source "$HOME/.helmrc"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-source "/home/kumori/code/kube/recode/scripts/auto-complete.sh"
+[ -f "$HOME/code/kube/recode/scripts/auto-complete.sh" ] && source "$HOME/code/kube/recode/scripts/auto-complete.sh"
 
 # {{{ WSL Fixex
 if [[ "$(umask)" = "000" ]]; then
@@ -282,3 +284,5 @@ export DOCKER_HOST=unix:///var/run/docker.sock
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p11k.zsh ]] || source ~/.p10k.zsh
+
+complete -C '/home/linuxbrew/.linuxbrew/bin/aws_completer' aws
