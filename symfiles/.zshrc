@@ -241,6 +241,9 @@ alias l='ls -latr'
 alias mp='make plan'
 alias md='make deploy'
 alias sshi='ssh -o StrictHostKeyChecking=no'
+alias tfp='terraform plan'
+alias tfi='terraform init'
+alias tfa='terraform apply --auto-approve'
 
 Make() {
   if [ -f Taskfile.yaml ]; then
