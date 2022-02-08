@@ -203,7 +203,7 @@ export PATH=$KITTY_HOME/bin:$PATH
 export PATH=$ISTIO_HOME/bin:$PATH
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PATH="$PATH:${LINKERD_ROOT:-$HOME}/.linkerd2/bin"
-export PATH="$PATH:/home/kumori/.gem/ruby/3.0.0/bin"
+export PATH="$PATH:/home/kumori/.gem/ruby/3.1.0/bin"
 export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
 source $HOME/.profile
 
@@ -253,6 +253,7 @@ Make() {
   fi
 }
 alias make='Make'
+alias m='Make'
 
 eval `dircolors ~/.dircolors`
 
