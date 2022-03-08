@@ -112,7 +112,7 @@ sudo ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
 log "apt update" 'S_APT' 
 sudo apt-get update &> /dev/null
 
-aptstall rsync zsh vim tmux autojump curl build-essential apt-transport-https ca-certificates gnupg containerd.io docker-ce docker-ce-cli cmake python3 silversearcher-ag gcc-5 g++-5
+aptstall rsync zsh vim tmux autojump curl build-essential apt-transport-https ca-certificates gnupg containerd.io docker-ce docker-ce-cli cmake python3 silversearcher-ag gcc-5 g++-5 apache2-utils
 execute 'S_APT' sudo apt-get upgrade -y
 
 # clang
@@ -140,11 +140,12 @@ function brewstall() {
   done
 }
 
-brewstall k9s helm terraform jq go-task/tap/go-task docker-compose awscli rbenv linkerd kubectl hugo
+brewstall k9s helm terraform jq go-task/tap/go-task docker-compose awscli rbenv linkerd kubectl argocd hugo sops yq
 execute 'S_BREW' brew upgrade
 
 ## ====================== Ruby
 # Ruby Install and Setup
+# TODO setup ruby version to latest automatically and update path accordingly, otherwise gem install fails
 RUBY_CONFIGURE_OPTS=--with-readline-dir="$(brew --prefix readline)" execute 'S_RUBY' rbenv install -s 3.1.0 
 execute 'S_RUBY' gem install --user-install terraspace
 
