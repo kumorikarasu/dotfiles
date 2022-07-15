@@ -140,7 +140,7 @@ function brewstall() {
   done
 }
 
-brewstall k9s helm kind tfenv jq go-task/tap/go-task docker-compose awscli rbenv linkerd kubectl argocd hugo sops yq deno mongosh hashicorp/tap/terraform-ls nvim tfsec
+brewstall k9s helm kind tfenv jq go-task/tap/go-task docker-compose awscli rbenv linkerd kubectl argocd hugo sops yq deno mongosh hashicorp/tap/terraform-ls nvim tfsec datawire/blackbird/telepresence
 execute 'S_BREW' brew upgrade
 
 ## ====================== Ruby
