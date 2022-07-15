@@ -261,10 +261,11 @@ call <SID>X("WarningMsg",	"ff0000",	"",			"")
 			"ModeMsg
 			"MoreMsg
 			"Directory
-			"DiffAdd
+call <SID>X("SignColumn", 	"000000",	"202020", 	"bold")
+call <SID>X("DiffAdd", 		"95e454",	"", 	"bold")
 			"DiffChange
-			"DiffDelete
-			"DiffText
+call <SID>X("DiffDelete",	"ff0000",	"444444", 	"")
+call <SID>X("DiffText",		"cccccc",	"444444", 	"")
 
 " syntax highlighting
 call <SID>X("Number",		"e5786d",	"",			"none")

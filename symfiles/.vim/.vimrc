@@ -1,11 +1,14 @@
 set nocp
+set nocompatible
 
 call pathogen#infect()
 
 syntax on
 filetype plugin indent on
+set omnifunc=syntaxcomplete#Complete
 
 " Settings {{{
+set expandtab
 set ts=2
 set tabstop=2
 set shiftwidth=2
@@ -111,8 +114,137 @@ vmap <Leader>=:: :Tabularize /::<CR>
 nmap <Leader>=: :Tabularize /:\zs<CR>
 vmap <Leader>=: :Tabularize /:\zs<CR>
 
+" Coc Configuration {{{
+set cmdheight=2
+set shortmess+=c
+set signcolumn=number
+
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" " Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+inoremap <silent><expr> <c-@> coc#refresh()
+"
+" use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
+
 com! FormatJSON %!python -m json.tool
+
+nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+
+nnoremap <silent> <leader>h :call CocActionAsync('doHover')<cr>
+inoremap <C-p> <C-\><C-O>:call CocActionAsync('showSignatureHelp')<cr>
+
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+" Mappings for CoCList
+" Show all diagnostics.
+nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions.
+nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+" Show commands.
+nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list.
+nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>af  <Plug>(coc-fix-current)
+
+" Run the Code Lens action on the current line.
+nmap <leader>cl  <Plug>(coc-codelens-action)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
 " }}}
+"
+
+" Debug {{{
+  
+nmap <silent> <Leader><F5> <Plug>VimspectorContinue
+nmap <silent> <Leader><F3>	<Plug>VimspectorStop
+nmap <silent> <Leader><F4>	<Plug>VimspectorRestart
+nmap <silent> <Leader><F6>	<Plug>VimspectorPause
+nmap <silent> <Leader><F9>	<Plug>VimspectorToggleBreakpoint
+" nmap <silent> <Leader><>F9	<Plug>VimspectorToggleConditionalBreakpoint
+" nmap <silent> <Leader><F8>	<Plug>VimspectorAddFunctionBreakpoint
+nmap <silent> <Leader><F8>	<Plug>VimspectorRunToCursor
+nmap <silent> <Leader><F10>	<Plug>VimspectorStepOver
+nmap <silent> <Leader><F11>	<Plug>VimspectorStepInto
+nmap <silent> <Leader><F12>	<Plug>VimspectorStepOut
+nmap <Leader>vr	<Plug>VimspectorReset
+ 
+" for normal mode - the word under the cursor
+nmap <Leader>vi <Plug>VimspectorBalloonEval
+" for visual mode, the visually selected text
+xmap <Leader>vi <Plug>VimspectorBalloonEval
+ 
+" }}}
+
+" nnoremap <silent><Leader><F4> :NodeInspectStart<cr>
+" nnoremap <silent><Leader><F5> :NodeInspectRun<cr>
+" nnoremap <silent><Leader><F6> :NodeInspectConnect("127.0.0.1:9229")<cr>
+" nnoremap <silent><Leader><F7> :NodeInspectStepInto<cr>
+" nnoremap <silent><Leader><F8> :NodeInspectStepOver<cr>
+" nnoremap <silent><Leader><F9> :NodeInspectToggleBreakpoint<cr>
+" nnoremap <silent><Leader><F10> :NodeInspectStop<cr>
 
 " Plugin Options {{{
 
@@ -134,10 +266,10 @@ let g:ctrlp_custom_ignore = 'node_modules$'
 let g:syntastic_javascript_checkers = 'jshint'
 let g:syntastic_ruby_checkers = ['rubocop']
 let g:syntastic_ruby_rubocop_exec = '/opt/chefdk/bin/cookstyle'
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
 let g:syntastic_python_python_exec = 'python3'
 let g:syntastic_python_checkers = ['python']
 
@@ -146,21 +278,23 @@ let g:EasyMotion_leader_key = '<Leader>'
 
 let g:ctrlp_switch_buffer=0
 
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
 
 set noshowmode
 set laststatus=2
+
 let g:lightline = {
-      \ 'colorscheme': 'srcery_drk',
+      \ 'colorscheme': 'wombat',
       \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
+      \   'left': [ [ 'mode', 'paste'],
+      \             [ 'coc_info', 'coc_hints', 'coc_errors', 'coc_warnings', 'coc_ok' ], [ 'coc_status'  ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
       \ },
       \ 'component_function': {
       \   'gitbranch': 'fugitive#head'
       \ },
       \ }
+
+call lightline#coc#register()
 
 "let g:ctrlp_prompt_mappings = {
     "\ 'PrtBS()': ['<c-h>'],
@@ -257,9 +391,9 @@ function! GRCmd(cmd)
   :call RCmd("git --no-pager " . a:cmd)
 endfunction
 
-let g:vimspector_enable_mappings = 'HUMAN'
+"let g:vimspector_enable_mappings = 'HUMAN'
+packadd! vimspector
 
 "Autoreload .vimrc
 "au! BufWritePost .vimrc source %
 
-set expandtab

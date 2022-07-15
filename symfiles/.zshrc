@@ -205,6 +205,8 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PATH="$PATH:${LINKERD_ROOT:-$HOME}/.linkerd2/bin"
 export PATH="$PATH:/home/kumori/.gem/ruby/3.1.0/bin"
 export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
+export PATH="/home/kumori/.deno/bin:$PATH"
+export PATH=$HOME/dotfiles3/scripts:$PATH
 source $HOME/.profile
 
 # Groovy
@@ -215,7 +217,8 @@ export EDITOR=vim
 export PAGER=less
 
 # alias
-alias vi="vim"
+alias vi="nvim"
+alias vim="nvim"
 alias githist="git reflog show | grep '}: commit' | nl | sort -nr | nl | sort -nr | cut --fields=1,3 | sed s/commit://g | sed -e 's/HEAD*@{[0-9]*}://g'"
 alias ack="ack --pager='less -R'"
 alias glg="git log --graph"
@@ -228,19 +231,14 @@ alias tmux="tmux -2"
 alias page=$PAGER
 alias mvne="mvn -Declipse.workspace=$ECLIPSE_WORKSPACE eclipse:add-maven-repo"
 alias crontab="VIM_CRONTAB=true crontab"
-alias st="git sourcetree"
 alias clip="xclip -selection clipboard"
-alias tf=terraform
-alias kbs='kubectl -n services'
-alias kbd='kubectl -n core-dev'
-alias kbl='kubectl -n elk'
-alias gts='git status'
 alias gits='git status'
 alias sdkms='sdkms-cli'
 alias l='ls -latr'
 alias mp='make plan'
 alias md='make deploy'
 alias sshi='ssh -o StrictHostKeyChecking=no'
+alias tf='terraform'
 alias tfp='terraform plan'
 alias tfi='terraform init'
 alias tfa='terraform apply --auto-approve'

@@ -140,7 +140,7 @@ function brewstall() {
   done
 }
 
-brewstall k9s helm tfenv jq go-task/tap/go-task docker-compose awscli rbenv linkerd kubectl argocd hugo sops yq deno
+brewstall k9s helm kind tfenv jq go-task/tap/go-task docker-compose awscli rbenv linkerd kubectl argocd hugo sops yq deno mongosh hashicorp/tap/terraform-ls nvim tfsec
 execute 'S_BREW' brew upgrade
 
 ## ====================== Ruby
@@ -242,6 +242,18 @@ clone https://github.com/terryma/vim-multiple-cursors.git $VIM_CUSTOM/bundle/vim
 clone https://github.com/flazz/vim-colorschemes.git $VIM_CUSTOM/bundle/vim-colorschemes
 clone https://github.com/hashivim/vim-terraform.git $VIM_CUSTOM/bundle/vim-terraform
 clone https://github.com/puremourning/vimspector.git $VIM_CUSTOM/pack/vimspector
+clone https://github.com/josa42/vim-lightline-coc.git $VIM_CUSTOM/bundle/vim-lightline-coc
+
+if [ ! -d "$VIM_CUSTOM/pack/coc" ]; then
+  log "Installing CoC"
+  log "CoC plugins have to be installed manually from inside vim"
+fi
+
+# Use release build of CoC
+mkdir -p ~/.vim/pack/coc/start
+cd ~/.vim/pack/coc/start
+git clone --branch release https://github.com/neoclide/coc.nvim.git --depth=1
+
 
 log "Changing shell to /bin/zsh ..."
 sudo chsh -s /bin/zsh $USER
