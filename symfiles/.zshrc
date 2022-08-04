@@ -267,12 +267,14 @@ if [ $commands[thefuck] ]; then
   eval $(thefuck --alias)
 fi
 
+
 # Helm autocompletion
 [ -f "$HOME/.helmrc" ] && source "$HOME/.helmrc"
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/home/linuxbrew/.linuxbrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
 [ -f "$HOME/code/kube/recode/scripts/auto-complete.sh" ] && source "$HOME/code/kube/recode/scripts/auto-complete.sh"
 
 # {{{ WSL Fixex
@@ -288,3 +290,21 @@ export DOCKER_HOST=unix:///var/run/docker.sock
 [[ ! -f ~/.p11k.zsh ]] || source ~/.p10k.zsh
 
 complete -C '/home/linuxbrew/.linuxbrew/bin/aws_completer' aws
+
+source "$HOME/.cargo/env"
+
+## WSL
+if grep -q "microsoft" /proc/version &>/dev/null; then
+  # WSL2
+  export DISPLAY="$(ip route|awk '/^default/{print $3}'):0.0"
+
+  # Pulse doesn't seem to like using the WSL IP, but my actual local IP works
+  #export PULSE_SERVER="${PULSE_SERVER:-tcp:$(ip route|awk '/^default/{print $3}')}"
+  export PULSE_SERVER=tcp:192.168.1.11
+
+  # export LIBGL_ALWAYS_INDIRECT=1
+fi
+
+
+#pkg-config path, because it doesn't know the own things it installs
+export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig/:/usr/share/pkgconfig:/usr/share/cargo/registry/pkg-config-0.3.21/

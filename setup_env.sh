@@ -37,10 +37,13 @@ S_WARNING="${C_YELLOW}${C_BOLD}WARNING${C_STOP}"
 S_ERROR="${C_RED}${C_BOLD}ERROR${C_STOP}"
 S_CRITICAL="${C_RED}${C_BOLD}CRITICAL${C_STOP}"
 
-S_BREW="${C_ORANGE} ${C_MAGENTA}BREW ${C_STOP}"
-  S_GIT="${C_GREEN} ${C_MAGENTA}GIT  ${C_STOP}"
- S_APT="${C_YELLOW} ${C_MAGENTA}APT  ${C_STOP}"
-   S_RUBY="${C_RED} ${C_MAGENTA}RUBY ${C_STOP}"
+S_BREW="${C_ORANGE} ${C_MAGENTA}BREW  ${C_STOP}"
+  S_GIT="${C_GREEN} ${C_MAGENTA}GIT   ${C_STOP}"
+ S_APT="${C_YELLOW} ${C_MAGENTA}APT   ${C_STOP}"
+   S_RUBY="${C_RED} ${C_MAGENTA}RUBY  ${C_STOP}"
+S_PYTHON="${C_GREEN}${C_MAGENTA}PYTHON${C_STOP}"
+  S_NODE="${C_GREEN}${C_MAGENTA}NODE  ${C_STOP}"
+ S_RUST="${C_ORANGE}${C_MAGENTA}RUST  ${C_STOP}"
 
 function log() {
   if [[ -z $2 ]]; then
@@ -112,17 +115,16 @@ sudo ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
 log "apt update" 'S_APT' 
 sudo apt-get update &> /dev/null
 
-aptstall rsync zsh vim tmux autojump curl build-essential apt-transport-https ca-certificates gnupg containerd.io docker-ce docker-ce-cli cmake python3 silversearcher-ag gcc-5 g++-5 apache2-utils
+# Apps
+aptstall rsync zsh vim tmux autojump curl build-essential apt-transport-https ca-certificates gnupg containerd.io docker-ce docker-ce-cli cmake silversearcher-ag g++-5 apache2-utils clang ghc 
+
+# dev libs
+aptstall libasound2-dev portaudio19-dev libpulse-dev libdbus-1-dev libz-dev libssl-dev pkg-config libx11-dev libudev-dev alsa-base libwayland-dev libxkbcommon-dev
+
 execute 'S_APT' sudo apt-get upgrade -y
 
-# clang
-
-#if [[ -z $IsDesktop ]]; then
-  #sudo apt-get upgrade -y
-#fi
 
 ## ====================== Brew
-
 if ! command -v brew &> /dev/null; then
   log "Install Brew" 'S_BREW'
   export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
@@ -140,17 +142,28 @@ function brewstall() {
   done
 }
 
-brewstall k9s helm kind tfenv jq go-task/tap/go-task docker-compose awscli rbenv linkerd kubectl argocd hugo sops yq deno mongosh hashicorp/tap/terraform-ls nvim tfsec datawire/blackbird/telepresence
+brewstall nvm python3 pip3 k9s helm kind tfenv jq go-task/tap/go-task docker-compose awscli rbenv linkerd kubectl argocd hugo sops yq deno mongosh hashicorp/tap/terraform-ls nvim tfsec datawire/blackbird/telepresence packer rustup
 execute 'S_BREW' brew upgrade
 
 ## ====================== Ruby
 # Ruby Install and Setup
 # TODO setup ruby version to latest automatically and update path accordingly, otherwise gem install fails
-RUBY_CONFIGURE_OPTS=--with-readline-dir="$(brew --prefix readline)" execute 'S_RUBY' rbenv install -s 3.1.0 
+RUBY_CONFIGURE_OPTS=--with-readline-dir="$(brew --prefix readline)" execute 'S_RUBY' rbenv install -s 3.1.2 
 execute 'S_RUBY' gem install --user-install terraspace
 
-## ====================== Config Folders
 
+## ====================== Python
+execute 'S_PYTHON' pip3 install pynvim --upgrade
+execute 'S_PYTHON' pip3 install thefuck --upgrade
+
+## ====================== Node
+execute 'S_NODE' nvm install 16
+execute 'S_NODE' npm install -g neovim
+
+## ====================== Rust
+execute 'S_RUST' rustup-init -q -y
+
+## ====================== Config Folders
 log "create folders"
 mkdir -p $HOME/.config
 mkdir -p $HOME/.ssh
@@ -241,8 +254,8 @@ clone https://github.com/pangloss/vim-javascript.git $VIM_CUSTOM/bundle/vim-java
 clone https://github.com/terryma/vim-multiple-cursors.git $VIM_CUSTOM/bundle/vim-multiple-cursors
 clone https://github.com/flazz/vim-colorschemes.git $VIM_CUSTOM/bundle/vim-colorschemes
 clone https://github.com/hashivim/vim-terraform.git $VIM_CUSTOM/bundle/vim-terraform
-clone https://github.com/puremourning/vimspector.git $VIM_CUSTOM/pack/vimspector
 clone https://github.com/josa42/vim-lightline-coc.git $VIM_CUSTOM/bundle/vim-lightline-coc
+clone https://github.com/puremourning/vimspector.git $VIM_CUSTOM/pack/vimspector/opt/vimspector
 
 if [ ! -d "$VIM_CUSTOM/pack/coc" ]; then
   log "Installing CoC"

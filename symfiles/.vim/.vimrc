@@ -395,5 +395,5 @@ endfunction
 packadd! vimspector
 
 "Autoreload .vimrc
-"au! BufWritePost .vimrc source %
+au! BufWritePost .vimrc source %
 
