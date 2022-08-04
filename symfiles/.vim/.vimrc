@@ -229,7 +229,7 @@ nmap <silent> <Leader><F8>	<Plug>VimspectorRunToCursor
 nmap <silent> <Leader><F10>	<Plug>VimspectorStepOver
 nmap <silent> <Leader><F11>	<Plug>VimspectorStepInto
 nmap <silent> <Leader><F12>	<Plug>VimspectorStepOut
-nmap <Leader>vr	<Plug>VimspectorReset
+nmap <silent> <Leader><F1>	:VimspectorReset<CR>
  
 " for normal mode - the word under the cursor
 nmap <Leader>vi <Plug>VimspectorBalloonEval
