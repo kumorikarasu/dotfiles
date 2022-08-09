@@ -5,19 +5,10 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-#
-# Look in ~/.oh-my-zsh/themes/
-# export ZSH_THEME="kumori"
-#export TERM="xterm-256color"
-#export ZSH_THEME="powerlevel9k/powerlevel9k"
-#export DEFAULT_USER="kumori"
-
 # Path to your oh-my-zsh configuration.
 export ZSH=$HOME/.oh-my-zsh
-
 export DEFAULT_USER="$(whoami)"
 export TERM="xterm-256color"
-export ZSH=/home/$DEFAULT_USER/.oh-my-zsh
 export LANG="en_US.UTF-8"
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
@@ -203,10 +194,12 @@ export PATH=$KITTY_HOME/bin:$PATH
 export PATH=$ISTIO_HOME/bin:$PATH
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PATH="$PATH:${LINKERD_ROOT:-$HOME}/.linkerd2/bin"
-export PATH="$PATH:/home/kumori/.gem/ruby/3.1.0/bin"
-export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
-export PATH="/home/kumori/.deno/bin:$PATH"
+export PATH="$PATH:$HOME/.gem/ruby/3.1.0/bin"
+export PATH="$HOME/.rbenv/bin:$PATH"
+export PATH="$HOME/.rbenv/shims:$PATH"
+export PATH="$HOME/.deno/bin:$PATH"
 export PATH=$HOME/dotfiles3/scripts:$PATH
+export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
 source $HOME/.profile
 
 # Groovy
@@ -253,7 +246,11 @@ Make() {
 alias make='Make'
 alias m='Make'
 
-eval `dircolors ~/.dircolors`
+if [[ $OSTYPE == darwin* ]]; then
+ eval `gdircolors ~/.dircolors`
+else
+ eval `dircolors ~/.dircolors`
+fi
 
 if [ $commands[chef] ]; then
   eval "$(chef shell-init zsh)"
@@ -272,8 +269,13 @@ fi
 [ -f "$HOME/.helmrc" ] && source "$HOME/.helmrc"
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/home/linuxbrew/.linuxbrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+if [[ $OSTYPE == darwin* ]]; then
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+else
+  [ -s "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/home/linuxbrew/.linuxbrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+fi
 
 [ -f "$HOME/code/kube/recode/scripts/auto-complete.sh" ] && source "$HOME/code/kube/recode/scripts/auto-complete.sh"
 

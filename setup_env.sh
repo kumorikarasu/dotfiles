@@ -1,21 +1,5 @@
 #!/bin/bash
 
-function entry() {
-
-OSDISTRO=`grep '^NAME' /etc/os-release`
-
-if [[ $OSTYPE == darwin* ]]; then
-AWK_CMD=gawk
-else
-AWK_CMD=gawk
-fi
-
-if ! command -v awk &> /dev/null; then
-  echo "Missing core utils requires to run this script, running update"
-  sudo apt-get update
-  sudo apt-get install -y gawk sed
-fi
-
 # Colours
 C_RED='\x1B[01;91m'
 C_GREEN='\x1B[01;92m'
@@ -37,34 +21,60 @@ S_WARNING="${C_YELLOW}${C_BOLD}WARNING${C_STOP}"
 S_ERROR="${C_RED}${C_BOLD}ERROR${C_STOP}"
 S_CRITICAL="${C_RED}${C_BOLD}CRITICAL${C_STOP}"
 
-S_BREW="${C_ORANGE} ${C_MAGENTA}BREW  ${C_STOP}"
-  S_GIT="${C_GREEN} ${C_MAGENTA}GIT   ${C_STOP}"
- S_APT="${C_YELLOW} ${C_MAGENTA}APT   ${C_STOP}"
-   S_RUBY="${C_RED} ${C_MAGENTA}RUBY  ${C_STOP}"
-S_PYTHON="${C_GREEN}${C_MAGENTA}PYTHON${C_STOP}"
-  S_NODE="${C_GREEN}${C_MAGENTA}NODE  ${C_STOP}"
- S_RUST="${C_ORANGE}${C_MAGENTA}RUST  ${C_STOP}"
+ S_BREW="${C_ORANGE} ${C_MAGENTA}BREW  ${C_STOP}"
+   S_GIT="${C_GREEN} ${C_MAGENTA}GIT   ${C_STOP}"
+  S_APT="${C_YELLOW} ${C_MAGENTA}APT   ${C_STOP}"
+    S_RUBY="${C_RED} ${C_MAGENTA}RUBY  ${C_STOP}"
+S_PYTHON="${C_GREEN} ${C_MAGENTA}PYTHON${C_STOP}"
+  S_NODE="${C_GREEN} ${C_MAGENTA}NODE  ${C_STOP}"
+ S_RUST="${C_ORANGE} ${C_MAGENTA}RUST  ${C_STOP}"
 
 function log() {
   if [[ -z $2 ]]; then
-    echo -e "${C_BLUE} ${C_MAGENTA}SETUP${C_STOP}: $1"
+    echo -e "${C_BLUE} ${C_MAGENTA}SETUP ${C_STOP}: $1"
   else
     echo -e "${!2}: $1"
   fi
 }
 
+function entry() {
+
+if [[ $OSTYPE == darwin* ]]; then
+  AWK_CMD=awk
+  log "OSX Requirements: gawk coreutils"
+  # On osx first thing we do is install brew and the core packages
+
+  if ! command -v brew &> /dev/null; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/sean.stacey/.zprofile
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  fi
+
+  brew install gawk coreutils &> /dev/null
+else
+  log "Linux Requirements: gawk sed"
+  AWK_CMD=gawk
+  OSDISTRO=`grep '^NAME' /etc/os-release`
+
+  if ! command -v awk &> /dev/null; then
+    echo "Missing core utils requires to run this script, running update"
+    sudo apt-get update
+    sudo apt-get install -y gawk sed
+  fi
+fi
+
+
 function execute() {
   SEDCMP="s/^/${C_DGREEN}${!1}${C_STOP}: /; s/[eE][rR][rR][oO][rR]/$S_ERROR/; s/[wW][aA][rR][nN][iI][nN][gG]/$S_WARNING/; s/[sS][uU][cC][cC][eE][sS][sS][ :]/$S_SUCCESS/; s/[cC][hH][eE][cC][kK][iI][nN][gG]/$S_CHECKING/;"
  
-  if [[ $OSTYPE == darwin* ]]; then
-    echo -e $(stdbuf -o0 ${@:2} 2>&1 \
-      | sed "$SEDCMP" \
-      | sed "s/x1B\[/\\\\\x1B\[/g;" \
-      | $AWK_CMD 'BEGIN { FS = "|" } ; { printf "%-24s: %s\\n", $1, $2 }')
-  else
-    stdbuf -o0 "${@:2}" 2>&1 \
-      | sed "$SEDCMP"
-  fi
+  stdbuf -o0 "${@:2}" 2>&1 \
+    | sed "$SEDCMP"
+}
+
+function execute_nobuf() {
+  SEDCMP="s/^/${C_DGREEN}${!1}${C_STOP}: /; s/[eE][rR][rR][oO][rR]/$S_ERROR/; s/[wW][aA][rR][nN][iI][nN][gG]/$S_WARNING/; s/[sS][uU][cC][cC][eE][sS][sS][ :]/$S_SUCCESS/; s/[cC][hH][eE][cC][kK][iI][nN][gG]/$S_CHECKING/;"
+ 
+  ${@:2} 2>&1 | sed "$SEDCMP"
 }
 
 function clone() {
@@ -86,15 +96,14 @@ fi
 
 
 ## ====================== Sudo Setup and Removal Trap
-log "Setting SUDO to non-interactive mode temporarily"
-function finish {
-  sudo sed -i "s/kumori ALL=(ALL) NOPASSWD:ALL//g" /etc/sudoers
-}
-trap finish EXIT
+#log "Setting SUDO to non-interactive mode temporarily"
+#function finish {
+#  sudo sed -i "s/kumori ALL=(ALL) NOPASSWD:ALL//g" /etc/sudoers
+#}
+#trap finish EXIT
 #echo 'kumori ALL=(ALL) NOPASSWD:ALL' | sudo tee -a /etc/sudoers &>/dev/null
 
 ## ====================== Apt Packages
-
 function aptstall() {
   LIST=$(sudo dpkg --get-selections)
   for pkg in $@ 
@@ -109,19 +118,21 @@ function aptstall() {
   done
 }
 
-## tzdata 'hack'
-sudo ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
+if [[ $OSTYPE != darwin* ]]; then
+  ## tzdata 'hack'
+  sudo ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
 
-log "apt update" 'S_APT' 
-sudo apt-get update &> /dev/null
+  log "apt update" 'S_APT' 
+  sudo apt-get update &> /dev/null
 
-# Apps
-aptstall rsync zsh vim tmux autojump curl build-essential apt-transport-https ca-certificates gnupg containerd.io docker-ce docker-ce-cli cmake silversearcher-ag g++-5 apache2-utils clang ghc 
+  # Apps
+  aptstall rsync zsh vim tmux autojump curl build-essential apt-transport-https ca-certificates gnupg containerd.io docker-ce docker-ce-cli cmake silversearcher-ag g++-5 apache2-utils clang ghc 
 
-# dev libs
-aptstall libasound2-dev portaudio19-dev libpulse-dev libdbus-1-dev libz-dev libssl-dev pkg-config libx11-dev libudev-dev alsa-base libwayland-dev libxkbcommon-dev
+  # dev libs
+  aptstall libasound2-dev portaudio19-dev libpulse-dev libdbus-1-dev libz-dev libssl-dev pkg-config libx11-dev libudev-dev alsa-base libwayland-dev libxkbcommon-dev
 
-execute 'S_APT' sudo apt-get upgrade -y
+  execute 'S_APT' sudo apt-get upgrade -y
+fi
 
 
 ## ====================== Brew
@@ -136,19 +147,23 @@ function brewstall() {
   for CMD in $@ 
   do
     if ! command -v $CMD &> /dev/null; then
-      execute 'S_BREW' brew install $CMD
+      execute 'S_BREW' brew install -q $CMD
     fi
     log "$CMD Installed" 'S_BREW'
   done
 }
 
+if [[ $OSTYPE == darwin* ]]; then
+  brewstall ruby-build llvm tmux autojump 
+fi
 brewstall nvm python3 pip3 k9s helm kind tfenv jq go-task/tap/go-task docker-compose awscli rbenv linkerd kubectl argocd hugo sops yq deno mongosh hashicorp/tap/terraform-ls nvim tfsec datawire/blackbird/telepresence packer rustup
 execute 'S_BREW' brew upgrade
 
 ## ====================== Ruby
 # Ruby Install and Setup
 # TODO setup ruby version to latest automatically and update path accordingly, otherwise gem install fails
-RUBY_CONFIGURE_OPTS=--with-readline-dir="$(brew --prefix readline)" execute 'S_RUBY' rbenv install -s 3.1.2 
+RUBY_CONFIGURE_OPTS=--with-readline-dir="$(brew --prefix readline)" execute 'S_RUBY' rbenv install -s 3.1.2
+execute 'S_RUBY' rbenv global 3.1.2
 execute 'S_RUBY' gem install --user-install terraspace
 
 
@@ -157,67 +172,77 @@ execute 'S_PYTHON' pip3 install pynvim --upgrade
 execute 'S_PYTHON' pip3 install thefuck --upgrade
 
 ## ====================== Node
-execute 'S_NODE' nvm install 16
+
+## ====================== Node
+# Load NVM
+export NVM_DIR="$HOME/.nvm"
+. $HOME/.nvm/nvm.sh
+execute_nobuf 'S_NODE' nvm install 16
+execute_nobuf 'S_NODE' nvm use 16
 execute 'S_NODE' npm install -g neovim
 
 ## ====================== Rust
 execute 'S_RUST' rustup-init -q -y
 
 ## ====================== Config Folders
-log "create folders"
-mkdir -p $HOME/.config
-mkdir -p $HOME/.ssh
+function configFolders() {
+  log "create folders"
+  mkdir -p $HOME/.config
+  mkdir -p $HOME/.ssh
 
-# set up symlinks
-log "Creating sym links..."
+  # set up symlinks
+  log "Creating sym links..."
 
-FILES=`ls -a symfiles | grep "^\." \
-  | sed \
-      -e "1,2d" \
-      -e "/\.git$/d" \
-      -e "/\.gitmodules$/d" \
-      -e "/\.config$/d" \
-      -e "/\.ssh$/d" \
-`
+  FILES=`ls -a symfiles | grep "^\." \
+    | sed \
+        -e "1,2d" \
+        -e "/\.git$/d" \
+        -e "/\.gitmodules$/d" \
+        -e "/\.config$/d" \
+        -e "/\.ssh$/d" \
+  `
 
-for FILE in $FILES
-do
-  execute 'S_INFO' ln -sf `pwd`/symfiles/$FILE $HOME/$FILE
-done
-
-function linkFolder(){
-  log "linking $1"
-  for FILE in `ls -A $1`
+  for FILE in $FILES
   do
-    execute 'S_INFO' ln -sf `pwd`/$1/$FILE $HOME/$2/$FILE
+    execute 'S_INFO' ln -sf `pwd`/symfiles/$FILE $HOME/$FILE
   done
+
+  function linkFolder(){
+    log "linking $1"
+    for FILE in `ls -A $1`
+    do
+      execute 'S_INFO' ln -sf `pwd`/$1/$FILE $HOME/$2/$FILE
+    done
+  }
+  linkFolder symfiles/.config .config
+  linkFolder symfiles/.ssh .ssh
+
+  for FILE in `ls -A symfiles/.config`
+  do
+    ln -sf `pwd`/symfiles/.config/$FILE $HOME/.config/$FILE
+  done
+
+  # Create code directories
+  mkdir -p $HOME/code
+  mkdir -p $HOME/code/home
+
+  # Symlink gitconfig based on code directory, more todo here
+  ln -sf `pwd`/symfiles/.gitconfig $HOME/code/home/.gitconfig
+
+  # install vim config
+  log "Installing vim config..."
+  ln -sf $HOME/.vim/.vimrc $HOME/.vimrc
+
+  # install zsh config
+  log "Installing zsh config..."
+  clone http://github.com/robbyrussell/oh-my-zsh.git $HOME/$OHMY
+  ln -sf `pwd`/kumori.zsh-theme $HOME/$OHMY/themes/kumori.zsh-theme
+
+  # oh-my-zsh plugins
+  ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
 }
-linkFolder symfiles/.config .config
-linkFolder symfiles/.ssh .ssh
 
-for FILE in `ls -A symfiles/.config`
-do
-  ln -sf `pwd`/symfiles/.config/$FILE $HOME/.config/$FILE
-done
-
-# Create code directories
-mkdir -p $HOME/code
-mkdir -p $HOME/code/home
-
-# Symlink gitconfig based on code directory, more todo here
-ln -sf `pwd`/symfiles/.gitconfig $HOME/code/home/.gitconfig
-
-# install vim config
-log "Installing vim config..."
-ln -sf $HOME/.vim/.vimrc $HOME/.vimrc
-
-# install zsh config
-log "Installing zsh config..."
-clone http://github.com/robbyrussell/oh-my-zsh.git $HOME/$OHMY
-ln -sf `pwd`/kumori.zsh-theme $HOME/$OHMY/themes/kumori.zsh-theme
-
-# oh-my-zsh plugins
-ZSH_CUSTOM=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}
+configFolders
 
 log "Installing ZSH Plugins"
 clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
@@ -231,7 +256,7 @@ clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel
 
 # Vim Plugins
 log "Installing VIM Plugins"
-VIM_CUSTOM=${VIM_CUSTOM:-~/.vim}
+VIM_CUSTOM=${VIM_CUSTOM:-$HOME/.vim}
 clone https://github.com/mileszs/ack.vim.git $VIM_CUSTOM/bundle/ack.vim
 clone https://github.com/Rip-Rip/clang_complete.git $VIM_CUSTOM/bundle/clang_complete
 clone https://github.com/kien/ctrlp.vim.git $VIM_CUSTOM/bundle/ctrlp
@@ -263,13 +288,12 @@ if [ ! -d "$VIM_CUSTOM/pack/coc" ]; then
 fi
 
 # Use release build of CoC
-mkdir -p ~/.vim/pack/coc/start
-cd ~/.vim/pack/coc/start
-git clone --branch release https://github.com/neoclide/coc.nvim.git --depth=1
-
+mkdir -p $HOME/.vim/pack/coc/start
+cd $HOME/.vim/pack/coc/start
+[[ ! -d $HOME/.vim/pack/coc/start/coc.nvim ]] || git clone --branch release https://github.com/neoclide/coc.nvim.git --depth=1
 
 log "Changing shell to /bin/zsh ..."
-sudo chsh -s /bin/zsh $USER
+[ $(echo $SHELL) != '/bin/zsh' ] && sudo chsh -s /bin/zsh $USER
 }
 
 TIMEFORMAT="Update took %Rs"
