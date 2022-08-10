@@ -17,8 +17,13 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 source $ZSH/custom/themes/$ZSH_THEME.zsh-theme
 [[ ! -d ~/.fonts ]] || source ~/.fonts/*.sh
 
-POWERLEVEL9K_FOLDER_ICON=""
 POWERLEVEL9K_HOME_ICON=""
+
+if [[ $OSTYPE == darwin* ]]; then
+  POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION=""
+else
+  POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION=""
+fi
 
 POWERLEVEL9K_HOME_SUB_ICON="$(print_icon "HOME_ICON")"
 #POWERLEVEL9K_DIR_PATH_SEPARATOR=" $(print_icon "LEFT_SUBSEGMENT_SEPARATOR") "
@@ -41,7 +46,7 @@ POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND='245'
 POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND='black'
 
 POWERLEVEL9K_TIME_FORMAT="%D{%H:%M}"
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(root_indicator dir dir_writable)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon root_indicator dir dir_writable)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status vcs kubecontext background_jobs command_execution_time time)
 POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito|k9s|helmfile|fluxctl|stern'
 POWERLEVEL9K_SHOW_CHANGESET=true
