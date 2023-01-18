@@ -154,7 +154,7 @@ function brewstall() {
 }
 
 if [[ $OSTYPE == darwin* ]]; then
-  brewstall ruby-build llvm tmux autojump the_silver_searcher
+  brewstall ruby-build llvm tmux autojump the_silver_searcher wget gnu-sed
 fi
 brewstall nvm python3 pip3 k9s helm kind tfenv jq go-task/tap/go-task docker-compose awscli rbenv linkerd kubectl argocd hugo sops yq deno mongosh hashicorp/tap/terraform-ls nvim tfsec datawire/blackbird/telepresence packer rustup
 execute 'S_BREW' brew upgrade
@@ -281,6 +281,7 @@ clone https://github.com/flazz/vim-colorschemes.git $VIM_CUSTOM/bundle/vim-color
 clone https://github.com/hashivim/vim-terraform.git $VIM_CUSTOM/bundle/vim-terraform
 clone https://github.com/josa42/vim-lightline-coc.git $VIM_CUSTOM/bundle/vim-lightline-coc
 clone https://github.com/puremourning/vimspector.git $VIM_CUSTOM/pack/vimspector/opt/vimspector
+clone https://github.com/github/copilot.vim.git $VIM_CUSTOM/pack/github/start/copilot.vim
 
 if [ ! -d "$VIM_CUSTOM/pack/coc" ]; then
   log "Installing CoC"

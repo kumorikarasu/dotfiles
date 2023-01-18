@@ -8,6 +8,7 @@ filetype plugin indent on
 set omnifunc=syntaxcomplete#Complete
 
 " Settings {{{
+set mouse=a
 set expandtab
 set ts=2
 set tabstop=2
@@ -32,9 +33,11 @@ endif
 if has("gui_running")
   colorscheme wombat
 else
-  set t_Co=256
-  set clipboard=unnamed
-  colorscheme wombat256
+ set t_Co=256
+ set clipboard=unnamed
+ colorscheme wombat256
+"  set termguicolors
+"  colorscheme wombattrue
 endif
 
 " }}}
@@ -114,12 +117,17 @@ vmap <Leader>=:: :Tabularize /::<CR>
 nmap <Leader>=: :Tabularize /:\zs<CR>
 vmap <Leader>=: :Tabularize /:\zs<CR>
 
+nmap <Leader>cp :Copilot panel<CR>
+nmap <Leader>co :Copilot open<CR>
+
 com! FormatJSON %!python -m json.tool
 
 " Coc Configuration {{{
 set cmdheight=2
 set shortmess+=c
 set signcolumn=number
+
+highlight CocFloating ctermfg=Grey ctermbg=238 guibg=LightYellow
 
 " " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
@@ -151,6 +159,8 @@ if has('nvim')
 else
   inoremap <silent><expr> <c-@> coc#refresh()
 endif
+
+
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
