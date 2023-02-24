@@ -156,7 +156,7 @@ function brewstall() {
 if [[ $OSTYPE == darwin* ]]; then
   brewstall ruby-build llvm tmux autojump the_silver_searcher wget gnu-sed
 fi
-brewstall nvm python3 pip3 k9s helm kind tfenv jq go-task/tap/go-task docker-compose awscli rbenv linkerd kubectl argocd hugo sops yq deno mongosh hashicorp/tap/terraform-ls nvim tfsec datawire/blackbird/telepresence packer rustup
+brewstall nvm python3 pip3 k9s helm kind tfenv jq go-task/tap/go-task docker-compose awscli rbenv linkerd kubectl argocd hugo sops yq deno mongosh hashicorp/tap/terraform-ls nvim tfsec datawire/blackbird/telepresence packer rustup redpanda-data/tap/redpanda
 execute 'S_BREW' brew upgrade
 
 ## ====================== Ruby
