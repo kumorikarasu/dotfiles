@@ -1,7 +1,9 @@
 {
-  "inlayHint.enable": true,
   "analyzer.procMacro.attributes.enable": true,
   "rust-analyzer.diagnostics.disabled": [
     "unresolved-proc-macro",
   ],
+  "inlayHint.enable": true,
+  "rust-analyzer.inlayHints.enable": true,
+  "rust-analyzer.inlayHints.typeHints": true,
 }

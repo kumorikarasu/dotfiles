@@ -291,6 +291,7 @@ fi
 # Run PackerSync to install neovim plugins
 echo "Running PackerSync"
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+nvim --headless -c 'MasonInstall rust-analyzer codelldb' -c q
 
 # Use release build of CoC
 mkdir -p $HOME/.vim/pack/coc/start

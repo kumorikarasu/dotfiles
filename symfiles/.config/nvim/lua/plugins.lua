@@ -1,12 +1,27 @@
+-- vim: foldmethod=marker foldlevel=0
+
+--- {{{ Ensure packer.nvim is installed
+local ensure_packer = function()
+  local fn = vim.fn
+  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.cmd [[packadd packer.nvim]]
+    return true
+  end
+  return false
+end
+
+local packer_bootstrap = ensure_packer()
+--- }}}
+
 return require('packer').startup(function(use)
 
-  use 'neovim/nvim-lspconfig'
-  use 'simrat39/rust-tools.nvim'
-
+  -- NeoTree {{{
   use {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v2.x",
-    requires = { 
+    requires = {
       "nvim-lua/plenary.nvim",
       {
         "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
@@ -131,9 +146,9 @@ return require('packer').startup(function(use)
             nowait = true,
           },
           mappings = {
-            ["<space>"] = { 
-                "toggle_node", 
-                nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use 
+            ["<space>"] = {
+                "toggle_node",
+                nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use
             },
             ["<2-LeftMouse>"] = "open",
             ["<cr>"] = "open",
@@ -153,7 +168,7 @@ return require('packer').startup(function(use)
             -- ['C'] = 'close_all_subnodes',
             ["z"] = "close_all_nodes",
             --["Z"] = "expand_all_nodes",
-            ["a"] = { 
+            ["a"] = {
               "add",
               -- this command supports BASH style brace expansion ("x{a,b,c}" -> xa,xb,xc). see `:h neo-tree-file-actions` for details
               -- some commands may take optional config options, see `:h neo-tree-mappings` for details
@@ -254,11 +269,21 @@ return require('packer').startup(function(use)
       vim.cmd([[nnoremap \ :Neotree reveal<cr>]])
     end
   }
+  -- }}}
 
+  -- {{{ heirline
   use {
     "rebelot/heirline.nvim",
   }
+  -- }}}
 
+  -- {{{ telescope
+    use 'nvim-telescope/telescope.nvim'
+    use 'phaazon/hop.nvim'
+  -- }}}
+  
+
+  -- {{{ toggleterm
   use {
     "akinsho/toggleterm.nvim",
     tag = '*',
@@ -271,5 +296,162 @@ return require('packer').startup(function(use)
       })
     end
   }
+  -- }}}
+
+  -- {{{ treesitter
+-- Current colorscheme doesn't work well with treesitter as it is very old
+--use {
+--  'nvim-treesitter/nvim-treesitter',
+--  config = function()
+--    require('nvim-treesitter.configs').setup({
+--      ensure_installed = { "c", "lua", "vim", "help", "query", "rust", "bash", "json", "yaml", "regex", "javascript", "typescript", "tsx", "cpp", "haskell" },
+--      sync_install = true,
+--      auto_install = true,
+--      highlight = {
+--        enable = true,
+--      },
+--    })
+--  end
+--}
+  -- }}}
+
+  -- {{{ mason lsp
+  use {
+    'williamboman/mason.nvim',
+    config = function()
+      require('mason').setup({
+        ui = {
+          icons = {
+            package_installed = "",
+            package_pending = "",
+            package_uninstalled = "",
+          },
+        }
+      })
+    end
+  }
+  use 'williamboman/mason-lspconfig.nvim'
+  --- }}}
+
+  -- {{{ lsp
+  use 'nvim-lua/completion-nvim'
+  use 'nvim-lua/lsp_extensions.nvim'
+  use 'nvim-lua/lsp-status.nvim'
+  use {
+    'simrat39/rust-tools.nvim',
+    config = function()
+      local rt = require("rust-tools")
+      rt.setup({
+        server = {
+          on_attach = function(_, bufnr)
+            -- Hover actions
+            vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+            -- Code action groups
+            vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+          end,
+        }
+      })
+    end
+  }
+
+  use {
+    'neovim/nvim-lspconfig',
+    config = function()
+      local lspconfig = require('lspconfig')
+      lspconfig.tsserver.setup {}
+      lspconfig.rust_analyzer.setup {}
+
+      -- Global mappings.
+      -- See `:help vim.diagnostic.*` for documentation on any of the below functions
+      vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
+      vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+      vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+      vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
+
+      -- Use LspAttach autocommand to only map the following keys
+      -- after the language server attaches to the current buffer
+      vim.api.nvim_create_autocmd('LspAttach', {
+        group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+        callback = function(ev)
+          -- Enable completion triggered by <c-x><c-o>
+          vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+          -- Buffer local mappings.
+          -- See `:help vim.lsp.*` for documentation on any of the below functions
+          local opts = { buffer = ev.buf }
+          vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+          vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+          vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+          vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+          vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+          vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+          vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+          vim.keymap.set('n', '<space>wl', function()
+            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+          end, opts)
+          vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
+          vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+          vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
+          vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+          vim.keymap.set('n', '<space>f', function()
+            vim.lsp.buf.format { async = true }
+          end, opts)
+        end,
+      })
+    end
+  }
+  -- }}}
+
+  -- {{{ cmp
+  -- Completion framework:
+  use 'hrsh7th/nvim-cmp' 
+
+  -- LSP completion source:
+  use 'hrsh7th/cmp-nvim-lsp'
+
+  -- Useful completion sources:
+  use 'hrsh7th/cmp-nvim-lua'
+  use 'hrsh7th/cmp-nvim-lsp-signature-help'
+  use 'hrsh7th/cmp-vsnip'                             
+  use 'hrsh7th/cmp-path'                              
+  use 'hrsh7th/cmp-buffer'                            
+  use 'hrsh7th/vim-vsnip'
+  
+  -- }}}
+
+  -- {{{ copilot
+  use { "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function ()
+      require("copilot").setup({
+        suggestion = {
+          enabled = true,
+          auto_trigger = true,
+          debounce = 75,
+          keymap = {
+            accept = "<Tab>",
+            accept_word = false,
+            accept_line = false,
+            next = "<M-]>",
+            prev = "<M-[>",
+            dismiss = "<C-]>",
+          },
+        },
+      })
+    end
+  }
+  -- }}}
+
+  -- {{{ vimspector
+  use 'puremourning/vimspector'
+  -- }}}
+  
+  use 'hashivim/vim-terraform'
+  use 'tpope/vim-surround'
+  use 'tpope/vim-fugitive'
+  use 'RRethy/vim-illuminate'
+
+  use 'lewis6991/impatient.nvim'
 
 end)
