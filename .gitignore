@@ -6,3 +6,8 @@
 
 symfiles/.vim/bundle
 symfiles/.vim/pack
+symfiles/.vim/swap
+symfiles/.vim/undo
+symfiles/.vim/tmp
+
+symfiles/.config/nvim/plugin/packer_compiled.lua

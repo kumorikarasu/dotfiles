@@ -264,8 +264,6 @@ clone https://github.com/Lokaltog/vim-easymotion.git $VIM_CUSTOM/bundle/easymoti
 clone https://github.com/tpope/vim-fugitive.git $VIM_CUSTOM/bundle/fugitive
 clone https://github.com/eagletmt/ghcmod-vim.git $VIM_CUSTOM/bundle/ghcmod
 clone https://github.com/itchyny/lightline.vim $VIM_CUSTOM/bundle/lightline.vim
-clone https://github.com/scrooloose/nerdtree.git $VIM_CUSTOM/bundle/nerdtree
-clone https://github.com/Xuyuanp/nerdtree-git-plugin.git $VIM_CUSTOM/bundle/nerdtree-git-plugin
 clone https://github.com/Lokaltog/vim-powerline.git $VIM_CUSTOM/bundle/powerline
 clone https://github.com/jb55/Vim-Roy.git $VIM_CUSTOM/bundle/roy
 clone https://github.com/jb55/snipmate-snippets.git $VIM_CUSTOM/bundle/snippets
@@ -281,12 +279,18 @@ clone https://github.com/flazz/vim-colorschemes.git $VIM_CUSTOM/bundle/vim-color
 clone https://github.com/hashivim/vim-terraform.git $VIM_CUSTOM/bundle/vim-terraform
 clone https://github.com/josa42/vim-lightline-coc.git $VIM_CUSTOM/bundle/vim-lightline-coc
 clone https://github.com/puremourning/vimspector.git $VIM_CUSTOM/pack/vimspector/opt/vimspector
+
+clone https://github.com/wbthomason/packer.nvim $VIM_CUSTOM/pack/packer/start/packer.nvim
 clone https://github.com/github/copilot.vim.git $VIM_CUSTOM/pack/github/start/copilot.vim
 
 if [ ! -d "$VIM_CUSTOM/pack/coc" ]; then
   log "Installing CoC"
   log "CoC plugins have to be installed manually from inside vim"
 fi
+
+# Run PackerSync to install neovim plugins
+echo "Running PackerSync"
+nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 # Use release build of CoC
 mkdir -p $HOME/.vim/pack/coc/start

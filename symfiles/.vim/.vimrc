@@ -1,3 +1,4 @@
+
 set nocp
 set nocompatible
 
@@ -68,7 +69,7 @@ set pastetoggle=<F10>
 nmap <F9> :TagbarToggle<CR>
 map <F8> :make tags<CR>
 map <F12> :TlistToggle<CR>
-map <F11> :NERDTreeToggle<CR>
+map <F11> :Neotree toggle<CR>
 map <F3> "yyiw:grep -r <C-R>y *<CR>
 "map <F3> :silent make \| redraw! \| cc<CR>
 map <F4> :call RCmd("make")<CR>
@@ -121,6 +122,13 @@ nmap <Leader>cp :Copilot panel<CR>
 nmap <Leader>co :Copilot open<CR>
 
 com! FormatJSON %!python -m json.tool
+
+map <Leader>t :ToggleTerm<CR>
+tnoremap <C-w>h <C-\><C-n><C-w>h
+tnoremap <C-w>j <C-\><C-n><C-w>j
+tnoremap <C-w>k <C-\><C-n><C-w>k
+tnoremap <C-w>l <C-\><C-n><C-w>l
+
 
 " Coc Configuration {{{
 set cmdheight=2
@@ -207,7 +215,8 @@ xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 " Remap keys for applying codeAction to the current buffer.
-nmap <leader>ac  <Plug>(coc-codeaction)
+" nmap <leader>ac  <Plug>(coc-codeaction)
+nmap <leader>ac  <Plug>(coc-codeaction-cursor)
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
 
@@ -443,3 +452,8 @@ packadd! vimspector
 "Autoreload .vimrc
 "au! BufWritePost .vimrc source %
 
+"Autoreload plugins.lua
+ augroup packer_user_config
+   autocmd!
+   autocmd BufWritePost plugins.lua source ~/.config/nvim/lua/plugins.lua | PackerCompile
+ augroup end
