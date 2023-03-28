@@ -325,7 +325,7 @@ local theme = lush(function(injected_functions)
     -- For more information see https://github.com/rktjmp/lush.nvim/issues/109
 
     -- sym"@text.literal"      { }, -- Comment
-    -- sym"@text.reference"    { }, -- Identifier
+    -- sym"@text.reference"    { fg = text }, -- Identifier
     -- sym"@text.title"        { }, -- Title
     -- sym"@text.uri"          { }, -- Underlined
     -- sym"@text.underline"    { }, -- Underlined
@@ -350,7 +350,7 @@ local theme = lush(function(injected_functions)
     -- sym"@function.macro"    { }, -- Macro
     -- sym"@parameter"         { }, -- Identifier
     -- sym"@method"            { }, -- Function
-    -- sym"@field"             { }, -- Identifier
+    sym"@field"             { fg = Cyellow }, -- Identifier
     -- sym"@property"          { fg = "#000000" }, -- Identifier
     -- sym"@constructor"       { }, -- Special
     -- sym"@conditional"       { }, -- Conditional

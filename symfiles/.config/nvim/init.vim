@@ -12,12 +12,15 @@ set shiftwidth=2
 set relativenumber
 set t_Co=256
 set clipboard=unnamed
+set nowrap
+
 
 if (has("termguicolors"))
  set termguicolors
 endif
 
 colorscheme wombat
+
 
 "Tab Page Config
 map <S-l> :tabn<CR>
@@ -32,6 +35,7 @@ au BufWinEnter * silent! loadview
 autocmd FileType ls set foldmethod=marker|set commentstring=#%s
 autocmd FileType vim set foldmethod=marker|set commentstring="%s
 autocmd FileType sh set foldmethod=marker|set commentstring=#%s
+autocmd BufNewFile,BufRead * if search('{{.\+}}', 'nw') | setlocal filetype=gotmpl | endif
 
 let g:vimspector_enable_mappings = 'HUMAN'
 
