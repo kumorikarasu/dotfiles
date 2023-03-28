@@ -255,48 +255,16 @@ clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-a
 clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
 
 # Vim Plugins
-log "Installing VIM Plugins"
-VIM_CUSTOM=${VIM_CUSTOM:-$HOME/.vim}
-clone https://github.com/mileszs/ack.vim.git $VIM_CUSTOM/bundle/ack.vim
-clone https://github.com/Rip-Rip/clang_complete.git $VIM_CUSTOM/bundle/clang_complete
-clone https://github.com/kien/ctrlp.vim.git $VIM_CUSTOM/bundle/ctrlp
-clone https://github.com/Lokaltog/vim-easymotion.git $VIM_CUSTOM/bundle/easymotion
-clone https://github.com/tpope/vim-fugitive.git $VIM_CUSTOM/bundle/fugitive
-clone https://github.com/eagletmt/ghcmod-vim.git $VIM_CUSTOM/bundle/ghcmod
-clone https://github.com/itchyny/lightline.vim $VIM_CUSTOM/bundle/lightline.vim
-clone https://github.com/Lokaltog/vim-powerline.git $VIM_CUSTOM/bundle/powerline
-clone https://github.com/jb55/Vim-Roy.git $VIM_CUSTOM/bundle/roy
-clone https://github.com/jb55/snipmate-snippets.git $VIM_CUSTOM/bundle/snippets
-clone https://github.com/tpope/vim-surround.git $VIM_CUSTOM/bundle/surround
-clone https://github.com/scrooloose/syntastic.git $VIM_CUSTOM/bundle/syntastic
-clone https://github.com/godlygeek/tabular.git $VIM_CUSTOM/bundle/tabular
-clone https://github.com/c9s/vikube.vim.git $VIM_CUSTOM/bundle/vikube.vim
-clone https://github.com/tpope/vim-fugitive.git $VIM_CUSTOM/bundle/vim-fugitive
-clone https://github.com/airblade/vim-gitgutter.git $VIM_CUSTOM/bundle/vim-gitgutter
-clone https://github.com/pangloss/vim-javascript.git $VIM_CUSTOM/bundle/vim-javascript
-clone https://github.com/terryma/vim-multiple-cursors.git $VIM_CUSTOM/bundle/vim-multiple-cursors
-clone https://github.com/flazz/vim-colorschemes.git $VIM_CUSTOM/bundle/vim-colorschemes
-clone https://github.com/hashivim/vim-terraform.git $VIM_CUSTOM/bundle/vim-terraform
-clone https://github.com/josa42/vim-lightline-coc.git $VIM_CUSTOM/bundle/vim-lightline-coc
-clone https://github.com/puremourning/vimspector.git $VIM_CUSTOM/pack/vimspector/opt/vimspector
-
+log "Installing VIM Package Manager (Packer)"
+VIM_CUSTOM=${VIM_CUSTOM:-$HOME/.config/nvim}
 clone https://github.com/wbthomason/packer.nvim $VIM_CUSTOM/pack/packer/start/packer.nvim
-clone https://github.com/github/copilot.vim.git $VIM_CUSTOM/pack/github/start/copilot.vim
-
-if [ ! -d "$VIM_CUSTOM/pack/coc" ]; then
-  log "Installing CoC"
-  log "CoC plugins have to be installed manually from inside vim"
-fi
 
 # Run PackerSync to install neovim plugins
 echo "Running PackerSync"
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+echo ""
 nvim --headless -c 'MasonInstall rust-analyzer codelldb' -c q
-
-# Use release build of CoC
-mkdir -p $HOME/.vim/pack/coc/start
-cd $HOME/.vim/pack/coc/start
-[[ ! -d $HOME/.vim/pack/coc/start/coc.nvim ]] || git clone --branch release https://github.com/neoclide/coc.nvim.git --depth=1
+echo ""
 
 log "Changing shell to /bin/zsh ..."
 [ $(echo $SHELL) != '/bin/zsh' ] && sudo chsh -s /bin/zsh $USER

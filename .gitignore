@@ -11,3 +11,4 @@ symfiles/.vim/undo
 symfiles/.vim/tmp
 
 symfiles/.config/nvim/plugin/packer_compiled.lua
+symfiles/.config/nvim/pack/
