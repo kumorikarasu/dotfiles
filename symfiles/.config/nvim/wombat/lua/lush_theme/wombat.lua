@@ -50,15 +50,22 @@ local hsl = lush.hsl
 -- Base Scheme Colors
 local white = hsl("#EEEEEE")
 local text = hsl("#CCCCCC")
-local subtext = hsl("#CAD3F5")
-local subtext1 = hsl("#B8C0E0")
-local subtext0 = hsl("#A5ADCB")
-local subtext2 = hsl("#959DAB")
+local subtext0 = hsl('#70758F')
+local subtext1 = hsl("#A5ADCB")
+local subtext2 = hsl("#B8C0E0")
+local subtext3 = hsl("#CAD3F5")
+-- local overlay0 = hsl('#70758F')
+local overlay0 = hsl("#959DAB")
+local overlay1 = hsl("#8087A2")
+local overlay2 = hsl("#939AB7")
+local surface0 = hsl("#363A4F")
+local surface2 = hsl("#5B6078")
+local surface1 = hsl("#494D64")
 
-local background = hsl("#242424")
+-- local background = hsl("#242424")
 local base = hsl("#1E2030")
 local baseHighlight = hsl("#24273A")
-local baseHighlight = hsl("#34374A")
+local baseHighlight2 = hsl("#34374A")
 local baseDark = hsl("#181926")
 
 -- Accent Colors
@@ -77,7 +84,6 @@ local Csapphire = hsl("#7DC4E4")
 local Cblue = hsl("#8AADF4")
 local Clavender = hsl("#B7BDF8")
 
-
 local darkRed = hsl("#e5786d")
 local darkRed = hsl("#D75F87")
 local darkYellow2 = hsl("#E6C07B")
@@ -90,13 +96,7 @@ local green = hsl("#95e454")
 
 -- Overlay Colors
 
-local overlay2 = hsl("#939AB7")
-local overlay1 = hsl("#8087A2")
 -- local overlay0 = hsl("#6E738D")
-local overlay0 = hsl('#70758F')
-local surface2 = hsl("#5B6078")
-local surface1 = hsl("#494D64")
-local surface0 = hsl("#363A4F")
 
 -- Schema 
 local number = hsl("#e5786d")
@@ -109,7 +109,6 @@ local string = hsl("#95e454")
 local theme = lush(function(injected_functions)
   local sym = injected_functions.sym
   return {
-
 
     -- The following are the Neovim (as of 0.8.0-dev+100-g371dfb174) highlight
     -- groups, mostly used for styling UI elements.
@@ -133,34 +132,32 @@ local theme = lush(function(injected_functions)
     DiffAdd { fg = green, bg = Normal.bg, gui = "bold"}, -- Diff mode: Added line |diff.txt|
     DiffChange   { fg = Clavender, bg = Normal.bg }, -- Diff mode: Changed line |diff.txt|
     DiffDelete { fg = Cred, bg = baseHighlight, gui = ""}, -- Diff mode: Deleted line |diff.txt|
-    DiffText { fg = subtext, bg = baseHighlight, gui = ""}, -- Diff mode: Changed text within a changed line |diff.txt|
+    DiffText { fg = subtext3, bg = baseHighlight, gui = ""}, -- Diff mode: Changed text within a changed line |diff.txt|
     -- EndOfBuffer  { }, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
     -- TermCursor   { }, -- Cursor in a focused terminal
     -- TermCursorNC { }, -- Cursor in an unfocused terminal
     ErrorMsg     { bg = darkRed, fg = baseDark} , -- Error messages on the command line
-    VertSplit { fg = baseHighlight, bg = baseHighlight, gui = "none"}, -- Column separating vertically split windows
-    Folded { fg = subtext, bg = baseHighlight, gui = "none"}, -- Line used for closed folds
-    FoldedColumn { fg = subtext, bg = baseHighlight, gui = "none"}, -- 'foldcolumn'
-    SignColumn { fg = baseHighlight, bg = baseDark, gui = "bold"}, -- Column where |signs| are displayed
+    VertSplit { fg = baseHighlight, bg = baseHighlight, gui = "none" }, -- Column separating vertically split windows
+    Folded { fg = subtext3, bg = baseHighlight, gui = "none" }, -- Line used for closed folds
+    FoldedColumn { fg = subtext3, bg = baseHighlight, gui = "none" }, -- 'foldcolumn'
+    SignColumn { fg = subtext0, bg = baseDark, gui = "bold" }, -- Column where |signs| are displayed
     -- IncSearch    { }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
     -- Substitute   { }, -- |:substitute| replacement text highlighting
-    LineNr { fg = subtext2, bg = "#202020", gui = "none"}, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
-    -- CursorLineNr { }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-    -- MatchParen   { }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
-    MatchParen { fg = "#ecee90", bg = "#857b6f", gui = "bold"},
+    LineNr { fg = subtext0, bg = baseDark, gui = "none"}, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
+    CursorLineNr { fg = yellow }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+    MatchParen   { fg = yellow, bg = "#857b6f", gui = "bold" }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
     -- ModeMsg      { }, -- 'showmode' message (e.g., "-- INSERT -- ")
     -- MsgArea      { }, -- Area for messages and cmdline
     -- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
-    -- MoreMsg      { }, -- |more-prompt|
-    -- NonText      { }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
-    NonText { fg = "#857b6f", bg = "#202020", gui = "none"}, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
+    MoreMsg      { fg = Cgreen }, -- |more-prompt|
+    NonText { fg = overlay0, bg = base, gui = "none"}, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
     -- NormalFloat  { }, -- Normal text in floating windows.
     -- NormalNC     { }, -- normal text in non-current windows
-    Pmenu { fg = "#f6f3e8", bg = "#444444", gui = ""}, -- Popup menu: Normal item.
-    PmenuSel { fg = "#121212", bg = "#caeb82", gui = ""}, -- Popup menu: Selected item.
+    Pmenu { fg = subtext0, bg = baseHighlight, gui = ""}, -- Popup menu: Normal item.
+    PmenuSel { fg = subtext2, bg = baseHighlight, gui = ""}, -- Popup menu: Selected item.
     -- PmenuSbar    { }, -- Popup menu: Scrollbar.
     -- PmenuThumb   { }, -- Popup menu: Thumb of the scrollbar.
-    -- Question     { }, -- |hit-enter| prompt and yes/no questions
+    Question     { fg  = Cgreen }, -- |hit-enter| prompt and yes/no questions
     -- QuickFixLine { }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
     -- Search       { }, 
     Search { fg = "#222222", bg = "#b5a3ff", gui = ""}, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
@@ -169,17 +166,17 @@ local theme = lush(function(injected_functions)
     -- SpellCap     { }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
     -- SpellLocal   { }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
     -- SpellRare    { }, -- Word that is recognized by the spellchecker as one that is hardly ever used. |spell| Combined with the highlighting used otherwise.
-    StatusLine { fg = "#f6f3e8", bg = "#444444", gui = "italic"}, -- Status line of current window
-    StatusLineNC { fg = "#857b6f", bg = "#444444", gui = "none"}, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
+    StatusLine { fg = subtext2, bg = baseHighlight, gui = "italic"}, -- Status line of current window
+    StatusLineNC { fg = subtext0, bg = base, gui = "none"}, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
     -- TabLine      { }, -- Tab pages line, not active tab page label
     -- TabLineFill  { }, -- Tab pages line, where there are no labels
     -- TabLineSel   { }, -- Tab pages line, active tab page label
     -- Title        { }, 
-    Title { fg = subtext, bg = Normal.bg, gui = "bold"}, -- Titles for output from ":set all", ":autocmd" etc.
+    Title { fg = subtext3, bg = Normal.bg, gui = "bold"}, -- Titles for output from ":set all", ":autocmd" etc.
     Visual { fg = yellow, bg = "#597418", gui = "none"}, -- Visual mode selection
     VisualNOS { fg = yellow, bg = "#597418", gui = "none"}, -- Visual mode selection when vim is "Not Owning the Selection".
     WarningMsg { fg = Cred, bg = Normal.bg, gui = ""}, -- Warning messages
-    -- Whitespace   { }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
+    Whitespace   { fg = subtext0, bg = base }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
     -- Winseparator { }, -- Separator between window splits. Inherts from |hl-VertSplit| by default, which it will replace eventually.
     -- WildMenu     { }, -- Current match in 'wildmenu' completion
 
@@ -191,38 +188,38 @@ local theme = lush(function(injected_functions)
     --
     -- Uncomment and edit if you want more specific syntax highlighting.
 
-    Comment { fg = overlay0, bg = Normal.bg, gui = "italic"}, -- Any comment
+    Comment { fg = subtext0, bg = Normal.bg, gui = "italic"}, -- Any comment
 
-    Constant { fg = number, bg = Normal.bg, gui = "none"}, -- (*) Any constant
+    Constant { fg = Cred, bg = Normal.bg, gui = "none"}, -- (*) Any constant
     String { fg = green, bg = Normal.bg, gui = "italic"}, --   A string constant: "this is a string"
     -- Character      { }, --   A character constant: 'c', '\n'
-    Number { fg = number, bg = Normal.bg, gui = "none"}, --   A number constant: 234, 0xff
+    Number { fg = Cred, bg = Normal.bg, gui = "none"}, --   A number constant: 234, 0xff
     -- Boolean        { }, --   A boolean constant: TRUE, false
     -- Float          { }, --   A floating point constant: 2.3e10
 
     Identifier { fg = yellow, bg = Normal.bg, gui = "none"}, -- (*) Any variable name
-    Function { fg = text, bg = Normal.bg, gui = "none"}, --   Function name (also: methods for classes)
+    Function { fg = Cyellow, bg = Normal.bg, gui = "none"}, --   Function name (also: methods for classes)
 
-    Statement { fg = "#87afff", bg = Normal.bg, gui = "none"}, -- (*) Any statement
+    Statement         { fg = Cblue, bg = base, gui = "none"}, -- (*) Any statement
     -- Conditional    { }, --   if, then, else, endif, switch, etc.
     -- Repeat         { }, --   for, do, while, etc.
     -- Label          { }, --   case, default, etc.
     -- Operator       { }, --   "sizeof", "+", "*", etc.
-    Keyword { fg = "#87afff", bg = Normal.bg, gui = "none"}, --   any other keyword
+    Keyword           { fg = Cblue, bg = Normal.bg, gui = "none"}, --   any other keyword
     -- Exception      { }, --   try, catch, throw
 
-    PreProc { fg = "#e5786d", bg = Normal.bg, gui = "none"}, -- (*) Generic Preprocessor
+    PreProc           { fg = Cred, bg = Normal.bg, gui = "none"}, -- (*) Generic Preprocessor
     -- Include        { }, --   Preprocessor #include
     -- Define         { }, --   Preprocessor #define
     -- Macro          { }, --   Same as Define
     -- PreCondit      { }, --   Preprocessor #if, #else, #endif, etc.
 
-    Type { fg = "#caeb82", bg = Normal.bg, gui = "none"}, -- (*) int, long, char, etc.
+    Type              { fg = yellow, bg = Normal.bg, gui = "none"}, -- (*) int, long, char, etc.
     -- StorageClass   { }, --   static, register, volatile, etc.
     -- Structure      { }, --   struct, union, enum, etc.
     -- Typedef        { }, --   A typedef
 
-    Special { fg = "#ffdead", bg = Normal.bg, gui = "none"}, -- (*) Any special symbol
+    Special           { fg = Cyellow, bg = Normal.bg, gui = "none"}, -- (*) Any special symbol
     -- SpecialChar    { }, --   Special character in a constant
     -- Tag            { }, --   You can use CTRL-] on this
     -- Delimiter      { }, --   Character that needs attention
@@ -232,7 +229,7 @@ local theme = lush(function(injected_functions)
     -- Underlined     { gui = "underline" }, -- Text that stands out, HTML links
     -- Ignore         { }, -- Left blank, hidden |hl-Ignore| (NOTE: May be invisible here in template)
     Error             { bg = darkRed, fg = baseDark} , -- Error messages on the command line
-    Todo { fg = "#857b6f", bg = Normal.bg, gui = "italic"}, -- Anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+    Todo { fg = subtext0, bg = Normal.bg, gui = "italic"}, -- Anything that needs extra attention; mostly the keywords TODO FIXME and XXX
 
     -- These groups are for the native LSP client and diagnostic system. Some
     -- other LSP clients may use these groups, or use their own. Consult your
@@ -273,31 +270,31 @@ local theme = lush(function(injected_functions)
     
     -- Neo Tree Highlights
     
-    -- NeoTreeBufferNumber        { }, -- The buffer number shown in the buffers source.
-    -- NeoTreeCursorLine          { }, -- |hl-CursorLine| override in Neo-tree window.
-    -- NeoTreeDimText             { }, -- Greyed out text used in various places.
-    -- NeoTreeDirectoryIcon       { }, -- Directory icon.
-    -- NeoTreeDirectoryName       { }, -- Directory name.
-    -- NeoTreeDotfile             { }, -- Used for icons and names when dotfiles are filtered.
+    NeoTreeBufferNumber        { fg = subtext1 }, -- The buffer number shown in the buffers source.
+    NeoTreeCursorLine          { bg = baseHighlight2 }, -- |hl-CursorLine| override in Neo-tree window.
+    NeoTreeDimText             { fg = subtext0 }, -- Greyed out text used in various places.
+    NeoTreeDirectoryIcon       { fg = subtext3 }, -- Directory icon.
+    NeoTreeDirectoryName       { fg = subtext3 }, -- Directory name.
+    NeoTreeDotfile             { fg = subtext0 }, -- Used for icons and names when dotfiles are filtered.
     -- NeoTreeFileIcon            { }, -- File icon, when not overridden by devicons.
     -- NeoTreeFileName            { fg = Normal.fg }, -- File name, when not overwritten by another status.
     -- NeoTreeFileNameOpened      { fg = Normal.fg }, -- File name when the file is open. Not used yet.
-    -- NeoTreeFilterTerm          { }, -- The filter term, as displayed in the root node.
+    NeoTreeFilterTerm          { fg = subtext1 }, -- The filter term, as displayed in the root node.
     -- NeoTreeFloatBorder         { }, -- The border for pop-up windows.
-    -- NeoTreeFloatTitle          { }, -- Used for the title text of pop-ups when the border-style is set to another style than "NC". This is derived from NeoTreeFloatBorder.
+    NeoTreeFloatTitle          { fg = subtext3 }, -- Used for the title text of pop-ups when the border-style is set to another style than "NC". This is derived from NeoTreeFloatBorder.
     -- NeoTreeTitleBar            { }, -- Used for the title bar of pop-ups, when the border-style is set to "NC". This is derived from NeoTreeFloatBorder.
-    -- NeoTreeGitAdded            { fg = DiffAdd.fg }, -- File name when the git status is added.
+    NeoTreeGitAdded            { fg = Cgreen }, -- File name when the git status is added.
     NeoTreeGitConflict         { fg = Cblue }, -- File name when the git status is conflict.
-    NeoTreeGitDeleted          { fg = DiffDelete.fg }, -- File name when the git status is deleted.
-    -- NeoTreeGitIgnored          { }, -- File name when the git status is ignored.
-    -- NeoTreeGitModified         { fg = DiffChange.fg}, -- File name when the git status is modified.
+    NeoTreeGitDeleted          { fg = Cred }, -- File name when the git status is deleted.
+    NeoTreeGitIgnored          { fg = subtext0 }, -- File name when the git status is ignored.
+    NeoTreeGitModified         { fg = Cmauve }, -- File name when the git status is modified.
     -- NeoTreeGitUnstaged         { }, -- Used for git unstaged symbol.
     NeoTreeGitUntracked        { fg = Cblue }, -- File name when the git status is untracked.
-    -- NeoTreeGitStaged           { }, -- Used for git staged symbol.
-    -- NeoTreeHiddenByName        { }, -- Used for icons and names when `hide_by_name` is used.
+    NeoTreeGitStaged           { fg = Cgreen }, -- Used for git staged symbol.
+    NeoTreeHiddenByName        { fg = subtext0 }, -- Used for icons and names when `hide_by_name` is used.
     -- NeoTreeIndentMarker        { }, -- The style of indentation markers (guides). By default, the "Normal" highlight is used.
     -- NeoTreeExpander            { }, -- Used for collapsed/expanded icons.
-    -- NeoTreeNormal              { }, -- |hl-Normal| override in Neo-tree window.
+    NeoTreeNormal              { fg = subtext2 }, -- |hl-Normal| override in Neo-tree window.
     -- NeoTreeNormalNC            { }, -- |hl-NormalNC| override in Neo-tree window.
     -- NeoTreeSignColumn          { }, -- |hl-SignColumn| override in Neo-tree window.
     -- NeoTreeStatusLine          { }, -- |hl-StatusLine| override in Neo-tree window.
@@ -307,7 +304,7 @@ local theme = lush(function(injected_functions)
     -- NeoTreeEndOfBuffer         { }, -- |hl-EndOfBuffer| override in Neo-tree window.
     -- NeoTreeRootName            { }, -- The name of the root node.
     -- NeoTreeSymbolicLinkTarget  { }, -- Symbolic link target.
-    -- NeoTreeWindowsHidden       { }, -- Used for icons and names that are hidden on Windows.
+    NeoTreeWindowsHidden       { fg = subtext1 }, -- Used for icons and names that are hidden on Windows.
 
 
     -- Tree-Sitter syntax groups.
