@@ -6,7 +6,7 @@ These have to be done in the terminal settings itself
 ### Font
 Nerd Font - MesloLGS NF
 
-### ASNI Colors
+### ASNI Terminal Colors
 "background": "#1C1C1C",
 "foreground": "#EEEEEE",
 "cursorColor": "#FFFFFF",
@@ -16,7 +16,6 @@ Nerd Font - MesloLGS NF
 "blue": "#3465A4",
 "cyan": "#06989A",
 "green": "#4E9A06",
-"name": "Ubuntu",
 "purple": "#75507B",
 "red": "#CC0000",
 "white": "#D3D7CF",

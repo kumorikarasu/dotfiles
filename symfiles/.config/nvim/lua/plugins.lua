@@ -259,13 +259,6 @@ return require('packer').startup(function(use)
         }
       })
 
-      vim.cmd([[ highlight! NeoTreeGitAdded guifg=green ctermfg=green ]])
-      vim.cmd([[ highlight! NeoTreeGitConflict guifg=13 ctermfg=13 ]])
-      vim.cmd([[ highlight! NeoTreeGitStaged guifg=green ctermfg=2 ]])
-      vim.cmd([[ highlight! NeoTreeGitModified guifg=yellow ctermfg=185 ]])
-      vim.cmd([[ highlight! NeoTreeGitDeleted guifg=red ctermfg=red ]])
-      vim.cmd([[ highlight! NeoTreeGitUntracked guifg=blue ctermfg=74 ]])
-
       vim.cmd([[nnoremap \ :Neotree reveal<cr>]])
     end
   }
@@ -298,22 +291,22 @@ return require('packer').startup(function(use)
   }
   -- }}}
 
-  -- {{{ treesitter
+-- {{{ treesitter 
 -- Current colorscheme doesn't work well with treesitter as it is very old
---use {
---  'nvim-treesitter/nvim-treesitter',
---  config = function()
---    require('nvim-treesitter.configs').setup({
---      ensure_installed = { "c", "lua", "vim", "help", "query", "rust", "bash", "json", "yaml", "regex", "javascript", "typescript", "tsx", "cpp", "haskell" },
---      sync_install = true,
---      auto_install = true,
---      highlight = {
---        enable = true,
---      },
---    })
---  end
---}
-  -- }}}
+use {
+  'nvim-treesitter/nvim-treesitter',
+  config = function()
+    require('nvim-treesitter.configs').setup({
+      ensure_installed = { "c", "lua", "vim", "help", "query", "rust", "bash", "json", "yaml", "regex", "javascript", "typescript", "tsx", "cpp", "haskell" },
+      sync_install = true,
+      auto_install = true,
+      highlight = {
+        enable = true,
+      },
+    })
+  end
+}
+-- }}}
 
   -- {{{ mason lsp
   use {
@@ -454,4 +447,7 @@ return require('packer').startup(function(use)
 
   use 'lewis6991/impatient.nvim'
 
+  use 'rktjmp/lush.nvim'
+
+  use '~/.config/nvim/wombat'
 end)
