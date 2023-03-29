@@ -64,6 +64,7 @@ local surface1 = hsl("#494D64")
 
 -- local background = hsl("#242424")
 local base = hsl("#1E2030")
+local base = hsl("#14151F")
 local baseHighlight = hsl("#24273A")
 local baseHighlight2 = hsl("#34374A")
 local baseDark = hsl("#181926")
@@ -271,7 +272,7 @@ local theme = lush(function(injected_functions)
     -- Neo Tree Highlights
     
     NeoTreeBufferNumber        { fg = subtext1 }, -- The buffer number shown in the buffers source.
-    NeoTreeCursorLine          { bg = baseHighlight2 }, -- |hl-CursorLine| override in Neo-tree window.
+    NeoTreeCursorLine          { bg = baseHighlight }, -- |hl-CursorLine| override in Neo-tree window.
     NeoTreeDimText             { fg = subtext0 }, -- Greyed out text used in various places.
     NeoTreeDirectoryIcon       { fg = subtext3 }, -- Directory icon.
     NeoTreeDirectoryName       { fg = subtext3 }, -- Directory name.
