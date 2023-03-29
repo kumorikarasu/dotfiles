@@ -138,7 +138,6 @@ bindkey -v
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
-export EDITOR=nvim
 export TEXBIN=/usr/texbin
 export PLAY_HOME=$HOME/dev/play-2.0.2
 export SCALA_HOME=$HOME/dev/scala-2.9.2
@@ -216,7 +215,7 @@ source $HOME/.profile
 [[ ! -d ~/.sdkman ]] || source $HOME/.sdkman/bin/sdkman-init.sh
 
 # other
-export EDITOR=vim
+export EDITOR=nvim
 export PAGER=less
 
 # alias
