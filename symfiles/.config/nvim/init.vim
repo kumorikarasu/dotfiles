@@ -33,7 +33,6 @@ au BufWinEnter * silent! loadview
 autocmd FileType  ls set foldmethod=marker|set commentstring=#%s
 autocmd FileType vim set foldmethod=marker|set commentstring="%s
 autocmd FileType  sh set foldmethod=marker|set commentstring=#%s
-autocmd BufNewFile,BufRead * if search('{{.\+}}', 'nw') | setlocal filetype=gotmpl | endif
 
 let g:vimspector_enable_mappings = 'HUMAN'
 
