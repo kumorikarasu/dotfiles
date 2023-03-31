@@ -259,22 +259,60 @@ return require('packer').startup(function(use)
         }
       })
 
-      vim.cmd([[nnoremap \ :Neotree reveal<cr>]])
+      wim.cmd([[nnoremap \ :Neotree reveal<cr>]])
     end
   }
   -- }}}
 
-  -- {{{ heirline
+  -- {{{ lualine
   use {
-    "rebelot/heirline.nvim",
+    "nvim-lualine/lualine.nvim",
+    requires = {"kyazdani42/nvim-web-devicons", opt = true}
   }
   -- }}}
 
   -- {{{ telescope
-    use 'nvim-telescope/telescope.nvim'
-    use 'phaazon/hop.nvim'
+  use {
+    'nvim-telescope/telescope.nvim',
+    config = function ()
+      local builtin = require('telescope.builtin')
+      vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+      vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+      vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+      vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+    end
+  }
+
   -- }}}
   
+  -- {{{ hop
+    use {
+      'phaazon/hop.nvim',
+      branch = 'v2',
+      config = function ()
+        local hop = require 'hop'
+        local directions = require('hop.hint').HintDirection
+        hop.setup {
+          keys = 'asdfjkletovxqpygbzhciurn',
+        }
+        vim.keymap.set('n', '<leader>h', function()
+          hop.hint_words()
+        end, {remap=true})
+        vim.keymap.set('', 'f', function()
+          hop.hint_char1({ direction = directions.AFTER_CURSOR, current_line_only = true })
+        end, {remap=true})
+        vim.keymap.set('', 'F', function()
+          hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = true })
+        end, {remap=true})
+        vim.keymap.set('', 't', function()
+          hop.hint_char1({ direction = directions.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })
+        end, {remap=true})
+        vim.keymap.set('', 'T', function()
+          hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })
+        end, {remap=true})
+      end
+    }
+  -- }}}
 
   -- {{{ toggleterm
   use {
@@ -284,15 +322,20 @@ return require('packer').startup(function(use)
       require("toggleterm").setup({
         terminal_mapping = "true",
         size = 10,
-        open_mapping = [[<F7>]],
+        open_mapping = [[<Leader>t]],
         shading_factor = 2,
       })
+      vim.cmd([[
+        tnoremap <C-w>h <C-\><C-n><C-w>h
+        tnoremap <C-w>j <C-\><C-n><C-w>j
+        tnoremap <C-w>k <C-\><C-n><C-w>k
+        tnoremap <C-w>l <C-\><C-n><C-w>l
+      ]])
     end
   }
   -- }}}
 
 -- {{{ treesitter 
--- Current colorscheme doesn't work well with treesitter as it is very old
 use {
   'nvim-treesitter/nvim-treesitter',
   config = function()
@@ -455,9 +498,8 @@ use {
   use 'tpope/vim-fugitive'
   use 'RRethy/vim-illuminate'
 
-  use 'lewis6991/impatient.nvim'
-
   use 'rktjmp/lush.nvim'
-
   use '~/.config/nvim/wombat'
+
+  use 'lewis6991/impatient.nvim'
 end)
