@@ -222,6 +222,7 @@ return require('packer').startup(function(use)
               --".null-ls_*",
             },
           },
+
           follow_current_file = false, -- This will find and focus the file in the active buffer every
                                        -- time the current file is changed while the tree is open.
           group_empty_dirs = false, -- when true, empty folders will be grouped together
@@ -340,7 +341,7 @@ use {
   'nvim-treesitter/nvim-treesitter',
   config = function()
     require('nvim-treesitter.configs').setup({
-      ensure_installed = { "c", "lua", "vim", "help", "query", "rust", "bash", "json", "yaml", "regex", "javascript", "typescript", "tsx", "cpp", "haskell" },
+      ensure_installed = { "c", "lua", "vim", "help", "query", "rust", "bash", "json", "yaml", "regex", "javascript", "typescript", "tsx", "cpp", "haskell", "gitcommit" },
       sync_install = true,
       auto_install = true,
       highlight = {
@@ -470,6 +471,8 @@ use {
     cmd = "Copilot",
     event = "InsertEnter",
     config = function ()
+      --vim.keymap.set('n', '<M-a>', require("copilot.suggestion").accept(), { remap = false })
+
       require("copilot").setup({
         suggestion = {
           enabled = true,
@@ -479,8 +482,8 @@ use {
             accept = "<Tab>",
             accept_word = false,
             accept_line = false,
-            next = "<M-]>",
-            prev = "<M-[>",
+            next = "<M-h>",
+            prev = "<M-l>",
             dismiss = "<C-]>",
           },
         },
@@ -493,6 +496,26 @@ use {
   use 'puremourning/vimspector'
   -- }}}
   
+  use {
+    'ThePrimeagen/harpoon',
+    config = function()
+      require('harpoon').setup({
+        vim.keymap.set('n', '<leader>s', '<cmd>lua require("harpoon.ui").toggle_quick_menu()<CR>'),
+        vim.keymap.set('n', '<leader>a', '<cmd>lua require("harpoon.mark").add_file()<CR>'),
+        vim.keymap.set('n', '<leader>1', '<cmd>lua require("harpoon.ui").nav_file(1)<CR>'),
+        vim.keymap.set('n', '<leader>2', '<cmd>lua require("harpoon.ui").nav_file(2)<CR>'),
+        vim.keymap.set('n', '<leader>3', '<cmd>lua require("harpoon.ui").nav_file(3)<CR>'),
+        vim.keymap.set('n', '<leader>4', '<cmd>lua require("harpoon.ui").nav_file(4)<CR>'),
+        vim.keymap.set('n', '<leader>5', '<cmd>lua require("harpoon.ui").nav_file(5)<CR>'),
+        vim.keymap.set('n', '<leader>6', '<cmd>lua require("harpoon.ui").nav_file(6)<CR>'),
+        vim.keymap.set('n', '<leader>7', '<cmd>lua require("harpoon.ui").nav_file(7)<CR>'),
+        vim.keymap.set('n', '<leader>8', '<cmd>lua require("harpoon.ui").nav_file(8)<CR>'),
+        vim.keymap.set('n', '<leader>9', '<cmd>lua require("harpoon.ui").nav_file(9)<CR>'),
+        vim.keymap.set('n', '<leader>0', '<cmd>lua require("harpoon.ui").nav_file(0)<CR>'),
+      })
+    end
+  }
+
   use 'hashivim/vim-terraform'
   use 'tpope/vim-surround'
   use 'tpope/vim-fugitive'
