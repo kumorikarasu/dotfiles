@@ -25,21 +25,30 @@ return require('packer').startup(function(use)
       "nvim-lua/plenary.nvim",
       {
         "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-        opts = {
-          deb = { icon = "", name = "Deb" },
-          lock = { icon = "", name = "Lock" },
-          mp3 = { icon = "", name = "Mp3" },
-          mp4 = { icon = "", name = "Mp4" },
-          out = { icon = "", name = "Out" },
-          ["robots.txt"] = { icon = "ﮧ", name = "Robots" },
-          ttf = { icon = "", name = "TrueTypeFont" },
-          rpm = { icon = "", name = "Rpm" },
-          woff = { icon = "", name = "WebOpenFontFormat" },
-          woff2 = { icon = "", name = "WebOpenFontFormat2" },
-          xz = { icon = "", name = "Xz" },
-          zip = { icon = "", name = "Zip" },
-          ["Dockerfile"] = { icon = "D", color = "orange", name = "Dockerfile" }
-        }
+        config = function()
+          require'nvim-web-devicons'.setup {
+            default = true,
+            override = {
+              dockerfile = { icon = "", name = "Dockerfile", color = "#458ee6" },
+              containerfile = { icon = "", name = "Dockerfile", color = "#458ee6" },
+              ["docker-compose.yaml"] = { icon = "", name = "Dockerfile", color = "#458ee6" },
+              ["docker-compose.yml"] = { icon = "", name = "Dockerfile", color = "#458ee6" },
+              [".dockerignore"] = { icon = "", name = "Dockerfile", color = "#458ee6" },
+              deb = { icon = "", name = "Deb" },
+              lock = { icon = "", name = "Lock" },
+              mp3 = { icon = "", name = "Mp3" },
+              mp4 = { icon = "", name = "Mp4" },
+              out = { icon = "", name = "Out" },
+              ["robots.txt"] = { icon = "ﮧ", name = "Robots" },
+              ttf = { icon = "", name = "TrueTypeFont" },
+              rpm = { icon = "", name = "Rpm" },
+              woff = { icon = "", name = "WebOpenFontFormat" },
+              woff2 = { icon = "", name = "WebOpenFontFormat2" },
+              xz = { icon = "", name = "Xz" },
+              zip = { icon = "", name = "Zip" },
+            }
+          }
+        end
       },
       "MunifTanjim/nui.nvim",
       {
@@ -260,7 +269,7 @@ return require('packer').startup(function(use)
         }
       })
 
-      wim.cmd([[nnoremap \ :Neotree reveal<cr>]])
+      vim.cmd([[nnoremap \ :Neotree reveal<cr>]])
     end
   }
   -- }}}
@@ -323,7 +332,6 @@ return require('packer').startup(function(use)
       require("toggleterm").setup({
         terminal_mapping = "true",
         size = 10,
-        open_mapping = [[<Leader>t]],
         shading_factor = 2,
       })
       vim.cmd([[

@@ -63,7 +63,7 @@ local surface2 = hsl("#5B6078")
 local surface1 = hsl("#494D64")
 
 -- local background = hsl("#242424")
-local base = hsl("#1E2030")
+-- local base = hsl("#1E2030")
 local base = hsl("#14151F")
 local baseHighlight = hsl("#24273A")
 local baseHighlight2 = hsl("#34374A")
@@ -85,14 +85,28 @@ local Csapphire = hsl("#7DC4E4")
 local Cblue = hsl("#8AADF4")
 local Clavender = hsl("#B7BDF8")
 
-local darkRed = hsl("#e5786d")
+-- local darkRed = hsl("#E5786D")
 local darkRed = hsl("#D75F87")
 local darkYellow2 = hsl("#E6C07B")
-local yellow = hsl("#caeb82")
+local yellow = hsl("#CAEB82")
 local darkYellow = hsl("#c0bc6c")
 
-local green = hsl("#8BCA7F")
-local green = hsl("#95e454")
+-- local green = hsl("#8BCA7F")
+local green = hsl("#95E454")
+
+-- Wombat
+local wKeyword = hsl("#88b8f6")
+local wStatement = hsl("#88b8f6")
+local wConstant = hsl("#e5786d")
+local wNumber = hsl("#e5786d")
+local wPreProc		 = hsl("#e5786d")
+local wFunction		 = hsl("#cae982")
+local wIdentifier	 = hsl("#cae982")
+local wType			 = hsl("#d4d987")
+local wSpecial	 = hsl("#eadead")
+local wString	 = hsl("#95e454")
+local wComment	 = hsl("#9c998e")
+local wTodo		 = hsl("#857b6f")
 
 
 -- Overlay Colors
@@ -191,10 +205,10 @@ local theme = lush(function(injected_functions)
 
     Comment { fg = subtext0, bg = Normal.bg, gui = "italic"}, -- Any comment
 
-    Constant { fg = Cred, bg = Normal.bg, gui = "none"}, -- (*) Any constant
+    Constant { fg = Cpink, bg = Normal.bg, gui = "none"}, -- (*) Any constant
     String { fg = green, bg = Normal.bg, gui = "italic"}, --   A string constant: "this is a string"
     -- Character      { }, --   A character constant: 'c', '\n'
-    Number { fg = Cred, bg = Normal.bg, gui = "none"}, --   A number constant: 234, 0xff
+    Number { fg = Cpink, bg = Normal.bg, gui = "none"}, --   A number constant: 234, 0xff
     -- Boolean        { }, --   A boolean constant: TRUE, false
     -- Float          { }, --   A floating point constant: 2.3e10
 
@@ -349,10 +363,10 @@ local theme = lush(function(injected_functions)
     -- sym"@function"          { }, -- Function
     -- sym"@function.builtin"  { }, -- Special
     -- sym"@function.macro"    { }, -- Macro
-    -- sym"@parameter"         { }, -- Identifier
-    -- sym"@method"            { }, -- Function
+    sym"@parameter"         { fg = Cmaroon }, -- Identifier
+    sym"@method"            { fg = yellow }, -- Function
     sym"@field"             { fg = Cyellow }, -- Identifier
-    -- sym"@property"          { fg = "#000000" }, -- Identifier
+    sym"@property"          { fg = Cyellow }, -- Identifier
     -- sym"@constructor"       { }, -- Special
     -- sym"@conditional"       { }, -- Conditional
     -- sym"@repeat"            { }, -- Repeat
@@ -360,8 +374,8 @@ local theme = lush(function(injected_functions)
     -- sym"@operator"          { }, -- Operator
     -- sym"@keyword"           { }, -- Keyword
     -- sym"@exception"         { }, -- Exception
-    -- sym"@variable"          { }, -- Identifier
-    -- sym"@type"              { }, -- Type
+    sym"@variable"          { fg = text }, -- Identifier
+    sym"@type"              { fg = Cmauve }, -- Type
     -- sym"@type.definition"   { }, -- Typedef
     -- sym"@storageclass"      { }, -- StorageClass
     -- sym"@structure"         { }, -- Structure
