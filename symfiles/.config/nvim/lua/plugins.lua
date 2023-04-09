@@ -23,6 +23,7 @@ return require('packer').startup(function(use)
     branch = "v2.x",
     requires = {
       "nvim-lua/plenary.nvim",
+      -- {{{ Icons 
       {
         "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
         config = function()
@@ -50,6 +51,8 @@ return require('packer').startup(function(use)
           }
         end
       },
+      -- }}}
+      -- {{{ Nui
       "MunifTanjim/nui.nvim",
       {
         -- only needed if you want to use the commands with "_with_window_picker" suffix
@@ -74,6 +77,7 @@ return require('packer').startup(function(use)
           })
         end,
       }
+      -- }}}
     },
 
     config = function()
@@ -95,6 +99,10 @@ return require('packer').startup(function(use)
         popup_border_style = "rounded",
         enable_git_status = true,
         open_files_do_not_replace_types = { "terminal", "trouble", "qf" }, -- when opening files, do not use windows containing these filetypes or buftypes
+        use_default_mappings = false,
+        source_selector = {
+          statusline = true,
+        },
         default_component_configs = {
           container = {
             enable_character_fade = true
@@ -164,10 +172,10 @@ return require('packer').startup(function(use)
             ["<esc>"] = "revert_preview",
             ["P"] = { "toggle_preview", config = { use_float = true } },
             ["l"] = "focus_preview",
-            ["S"] = "open_split",
-            ["s"] = "open_vsplit",
-            -- ["S"] = "split_with_window_picker",
-            -- ["s"] = "vsplit_with_window_picker",
+            -- ["S"] = "open_split",
+            -- ["s"] = "open_vsplit",
+            ["S"] = "split_with_window_picker",
+            ["s"] = "vsplit_with_window_picker",
             ["t"] = "open_tabnew",
             -- ["<cr>"] = "open_drop",
             -- ["t"] = "open_tab_drop",
@@ -175,8 +183,8 @@ return require('packer').startup(function(use)
             --["P"] = "toggle_preview", -- enter preview mode, which shows the current node without focusing
             ["C"] = "close_node",
             -- ['C'] = 'close_all_subnodes',
-            ["z"] = "close_all_nodes",
-            --["Z"] = "expand_all_nodes",
+            ["zc"] = "close_all_nodes",
+            ["zo"] = "expand_all_nodes",
             ["a"] = {
               "add",
               -- this command supports BASH style brace expansion ("x{a,b,c}" -> xa,xb,xc). see `:h neo-tree-file-actions` for details
@@ -198,6 +206,7 @@ return require('packer').startup(function(use)
             --    show_path = "none" -- "none", "relative", "absolute"
             --  }
             --}
+            ["<Leader>f"] = "fuzzy_finder",
             ["m"] = "move", -- takes text input for destination, also accepts the optional config.show_path option like "add".
             ["q"] = "close_window",
             ["R"] = "refresh",
@@ -221,7 +230,9 @@ return require('packer').startup(function(use)
               --"*/src/*/tsconfig.json",
             },
             always_show = { -- remains visible even if other settings would normally hide it
-              --".gitignored",
+              ".gitkeep",
+              ".github",
+              ".config",
             },
             never_show = { -- remains hidden even if visible is toggled to true, this overrides always_show
               --".DS_Store",
@@ -250,13 +261,12 @@ return require('packer').startup(function(use)
               ["gr"] = "git_revert_file",
               ["gc"] = "git_commit",
               ["gp"] = "git_push",
-              ["gg"] = "git_commit_and_push",
 
               ["<F5>"] = "refresh",
               ["<bs>"] = "navigate_up",
               ["."] = "set_root",
               ["H"] = "toggle_hidden",
-              ["/"] = "fuzzy_finder",
+              ["ff"] = "fuzzy_finder",
               ["D"] = "fuzzy_finder_directory",
               ["#"] = "fuzzy_sorter", -- fuzzy sorting using the fzy algorithm
               -- ["D"] = "fuzzy_sorter_directory",
@@ -335,6 +345,7 @@ return require('packer').startup(function(use)
         shading_factor = 2,
       })
       vim.cmd([[
+        nnoremap <leader>t :ToggleTerm<cr>
         tnoremap <C-w>h <C-\><C-n><C-w>h
         tnoremap <C-w>j <C-\><C-n><C-w>j
         tnoremap <C-w>k <C-\><C-n><C-w>k
@@ -402,7 +413,7 @@ use {
             -- Hover actions
             vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
             -- Code action groups
-            vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+            vim.keymap.set("n", "<Leader>c", rt.code_action_group.code_action_group, { buffer = bufnr })
           end,
         }
       })
@@ -479,7 +490,7 @@ use {
     cmd = "Copilot",
     event = "InsertEnter",
     config = function ()
-      --vim.keymap.set('n', '<M-a>', require("copilot.suggestion").accept(), { remap = false })
+      vim.keymap.set('i', '<M-a>', require("copilot.suggestion").accept, { remap = false })
 
       require("copilot").setup({
         suggestion = {
@@ -504,6 +515,7 @@ use {
   use 'puremourning/vimspector'
   -- }}}
   
+  -- {{{ harpoon
   use {
     'ThePrimeagen/harpoon',
     config = function()
@@ -523,6 +535,7 @@ use {
       })
     end
   }
+  -- }}}
 
   use 'hashivim/vim-terraform'
   use 'tpope/vim-surround'

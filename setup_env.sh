@@ -156,7 +156,7 @@ function brewstall() {
 if [[ $OSTYPE == darwin* ]]; then
   brewstall ruby-build llvm tmux autojump the_silver_searcher wget gnu-sed
 fi
-brewstall nvm python3 pip3 k9s helm kind tfenv jq go-task/tap/go-task docker-compose awscli rbenv linkerd kubectl argocd hugo sops yq deno mongosh hashicorp/tap/terraform-ls nvim tfsec datawire/blackbird/telepresence packer rustup tflint tfsec redpanda-data/tap/redpanda
+brewstall nvm python3 pip3 k9s helm kind tfenv jq go-task/tap/go-task docker-compose awscli rbenv linkerd kubectl argocd hugo sops yq deno mongosh hashicorp/tap/terraform-ls nvim tfsec datawire/blackbird/telepresence packer rustup tflint tfsec redpanda-data/tap/redpanda fd
 execute 'S_BREW' brew upgrade
 
 ## ====================== Ruby
@@ -263,7 +263,7 @@ clone https://github.com/wbthomason/packer.nvim $VIM_CUSTOM/pack/packer/start/pa
 echo "Running PackerSync"
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 echo ""
-nvim --headless -c 'MasonInstall rust-analyzer codelldb' -c q
+nvim --headless -c 'MasonInstall rust-analyzer codelldb typescript-language-server' -c q
 echo ""
 
 log "Changing shell to /bin/zsh ..."

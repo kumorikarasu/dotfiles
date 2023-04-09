@@ -145,8 +145,12 @@ local theme = lush(function(injected_functions)
     CursorLine { fg = Normal.fg, bg = "#32322e"},
     Directory    { fg = Normal.fg }, -- Directory names (and other special names in listings)
     DiffAdd { fg = green, bg = Normal.bg, gui = "bold"}, -- Diff mode: Added line |diff.txt|
+    DiffAdded { fg = green, bg = Normal.bg, gui = "bold"}, -- Diff mode: Added line |diff.txt|
     DiffChange   { fg = Clavender, bg = Normal.bg }, -- Diff mode: Changed line |diff.txt|
     DiffDelete { fg = Cred, bg = baseHighlight, gui = ""}, -- Diff mode: Deleted line |diff.txt|
+    DiffRemoved { fg = Cred, gui = ""}, -- Diff mode: Deleted line |diff.txt|
+    DiffIndexLine { fg = subtext1 },
+    DiffFile { fg = subtext0 },
     DiffText { fg = subtext3, bg = baseHighlight, gui = ""}, -- Diff mode: Changed text within a changed line |diff.txt|
     -- EndOfBuffer  { }, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
     -- TermCursor   { }, -- Cursor in a focused terminal
@@ -183,11 +187,11 @@ local theme = lush(function(injected_functions)
     -- SpellRare    { }, -- Word that is recognized by the spellchecker as one that is hardly ever used. |spell| Combined with the highlighting used otherwise.
     StatusLine { fg = subtext2, bg = baseHighlight, gui = "italic"}, -- Status line of current window
     StatusLineNC { fg = subtext0, bg = base, gui = "none"}, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
-    -- TabLine      { }, -- Tab pages line, not active tab page label
-    -- TabLineFill  { }, -- Tab pages line, where there are no labels
-    -- TabLineSel   { }, -- Tab pages line, active tab page label
+    TabLine      { fg = subtext0, bg = base }, -- Tab pages line, not active tab page label
+    TabLineFill  { fg = subtext0, bg = base }, -- Tab pages line, where there are no labels
+    TabLineSel   { fg = subtext3, bg = baseHighlight, gui = "bold" }, -- Tab pages line, active tab page label
     -- Title        { }, 
-    Title { fg = subtext3, bg = Normal.bg, gui = "bold"}, -- Titles for output from ":set all", ":autocmd" etc.
+    Title { fg = text, bg = Normal.bg, gui = "bold"}, -- Titles for output from ":set all", ":autocmd" etc.
     Visual { fg = yellow, bg = "#597418", gui = "none"}, -- Visual mode selection
     VisualNOS { fg = yellow, bg = "#597418", gui = "none"}, -- Visual mode selection when vim is "Not Owning the Selection".
     WarningMsg { fg = Cred, bg = Normal.bg, gui = ""}, -- Warning messages
