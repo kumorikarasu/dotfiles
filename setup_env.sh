@@ -244,6 +244,10 @@ function configFolders() {
 
 configFolders
 
+log "Install nodejs"
+nvm install 16
+nvm use 16
+
 log "Installing ZSH Plugins"
 clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
 clone https://github.com/supercrabtree/k $ZSH_CUSTOM/plugins/k
@@ -257,6 +261,7 @@ clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel
 # Vim Plugins
 log "Installing VIM Package Manager (Packer)"
 VIM_CUSTOM=${VIM_CUSTOM:-$HOME/.config/nvim}
+clone https://github.com/github/copilot.vim.git $VIM_CUSTOM/pack/github/start/copilot.vim
 clone https://github.com/wbthomason/packer.nvim $VIM_CUSTOM/pack/packer/start/packer.nvim
 
 # Run PackerSync to install neovim plugins

@@ -360,6 +360,7 @@ use {
   'nvim-treesitter/nvim-treesitter',
   config = function()
     require('nvim-treesitter.configs').setup({
+      ignore_install = { "help" }, -- https://github.com/LazyVim/LazyVim/issues/524
       ensure_installed = { "c", "lua", "vim", "help", "query", "rust", "bash", "json", "yaml", "regex", "javascript", "typescript", "tsx", "cpp", "haskell", "gitcommit" },
       sync_install = true,
       auto_install = true,
@@ -505,6 +506,17 @@ use {
             prev = "<M-l>",
             dismiss = "<C-]>",
           },
+        },
+        filetypes = {
+          yaml = true,
+          markdown = false,
+          help = false,
+          gitcommit = false,
+          gitrebase = false,
+          hgcommit = false,
+          svn = false,
+          cvs = false,
+          ["."] = false,
         },
       })
     end
