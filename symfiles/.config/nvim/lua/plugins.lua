@@ -409,12 +409,32 @@ use {
     config = function()
       local rt = require("rust-tools")
       rt.setup({
+        tools = {
+          autoSetHints = true,
+          hover_with_actions = true,
+          runnables = {
+            use_telescope = true
+          },
+          debuggables = {
+            use_telescope = true
+          },
+          inlay_hints = {
+            show_parameter_hints = true,
+            parameter_hints_prefix = "<- ",
+            other_hints_prefix = "=> ",
+            max_len_align = false,
+            max_len_align_padding = 1,
+            right_align = false,
+            right_align_padding = 7,
+          },
+        },
         server = {
           on_attach = function(_, bufnr)
             -- Hover actions
             vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
             -- Code action groups
             vim.keymap.set("n", "<Leader>c", rt.code_action_group.code_action_group, { buffer = bufnr })
+            vim.keymap.set("n", "<Leader>m", rt.expand_macro.expand_macro, { buffer = bufnr })
           end,
         }
       })
