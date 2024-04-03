@@ -203,10 +203,12 @@ export PATH="$PATH:$HOME/.gem/ruby/3.1.0/bin"
 export PATH="$HOME/.rbenv/bin:$PATH"
 export PATH="$HOME/.rbenv/shims:$PATH"
 export PATH="$HOME/.deno/bin:$PATH"
-export PATH=$HOME/dotfiles3/scripts:$PATH
-export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
+export PATH=/usr/local/go/bin:$PATH
+
 if [[ $OSTYPE == darwin* ]]; then
   export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
+else
+  export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
 fi
 
 source $HOME/.profile
@@ -244,6 +246,9 @@ alias tf='terraform'
 alias tfp='terraform plan'
 alias tfi='terraform init'
 alias tfa='terraform apply --auto-approve'
+alias tg='terragrunt'
+alias tga='terragrunt apply'
+alias tgp='terragrunt plan'
 
 Make() {
   if [ -f Taskfile.yaml ]; then
